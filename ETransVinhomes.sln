@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{059934A1-6934-4F3D-A903-3E3708A72C87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domains", "Domains\Domains.csproj", "{D6CE6723-FB8C-4EAD-88A0-1643EC33383B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{B7430E4B-5BD9-431E-ABA2-F684B922E0B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{19A09C06-FEFA-48A5-82AB-4388E846DF87}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3C6E1D74-7E4D-4AD7-A0E7-34DCB5717D6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{8A52A6CB-CFCC-4D6D-A3EF-A4DC14E5A7D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETransVinhomesAPI", "ETransVinhomesAPI\ETransVinhomesAPI.csproj", "{4745E3D2-E5F2-4DE9-AC72-FC8F02182184}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6CE6723-FB8C-4EAD-88A0-1643EC33383B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6CE6723-FB8C-4EAD-88A0-1643EC33383B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6CE6723-FB8C-4EAD-88A0-1643EC33383B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6CE6723-FB8C-4EAD-88A0-1643EC33383B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19A09C06-FEFA-48A5-82AB-4388E846DF87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A09C06-FEFA-48A5-82AB-4388E846DF87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A09C06-FEFA-48A5-82AB-4388E846DF87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A09C06-FEFA-48A5-82AB-4388E846DF87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4745E3D2-E5F2-4DE9-AC72-FC8F02182184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4745E3D2-E5F2-4DE9-AC72-FC8F02182184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4745E3D2-E5F2-4DE9-AC72-FC8F02182184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4745E3D2-E5F2-4DE9-AC72-FC8F02182184}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D6CE6723-FB8C-4EAD-88A0-1643EC33383B} = {059934A1-6934-4F3D-A903-3E3708A72C87}
+		{19A09C06-FEFA-48A5-82AB-4388E846DF87} = {B7430E4B-5BD9-431E-ABA2-F684B922E0B7}
+		{4745E3D2-E5F2-4DE9-AC72-FC8F02182184} = {8A52A6CB-CFCC-4D6D-A3EF-A4DC14E5A7D7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9B3DCFD2-D02F-4ACC-AB92-5357D7676423}
+	EndGlobalSection
+EndGlobal
