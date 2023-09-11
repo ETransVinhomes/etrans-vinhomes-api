@@ -1,5 +1,7 @@
 ﻿using Domains.Entities;
 using Microsoft.EntityFrameworkCore;
+using Services.Commons;
+using Services.Interfaces;
 using Services.Repositories;
 using System.Linq.Expressions;
 

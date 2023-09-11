@@ -1,4 +1,5 @@
 ﻿using Domains.Entities;
+using Services.Commons;
 using System.Linq.Expressions;
 
 namespace Services.Repositories
