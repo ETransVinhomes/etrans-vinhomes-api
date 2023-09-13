@@ -1,8 +1,8 @@
 ﻿using Domains.Entities;
 using Microsoft.EntityFrameworkCore;
 using Services.Commons;
-using Services.Interfaces;
 using Services.Repositories;
+using Services.Services.Interfaces;
 using System.Linq.Expressions;
 
 namespace Repositories.Repositories

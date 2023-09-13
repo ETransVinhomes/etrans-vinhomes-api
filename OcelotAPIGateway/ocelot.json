@@ -1,0 +1,34 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:7061"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/gateway/location-types",
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/locationtypes",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/location-types/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/locationtypes/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+    }
+  ]
+}

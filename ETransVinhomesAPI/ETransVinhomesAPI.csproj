@@ -4,15 +4,14 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>1f485750-b60b-4bf0-bbb0-2d125571b388</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.10" />
@@ -21,9 +20,11 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.10" />
 	</ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Domains\Domains.csproj" />
-    <ProjectReference Include="..\Repositories\Repositories.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Domains\Domains.csproj" />
+	  <ProjectReference Include="..\Repositories\Repositories.csproj" />
+	  <ProjectReference Include="..\Services\Services.csproj" />
+	</ItemGroup>
+
 
 </Project>

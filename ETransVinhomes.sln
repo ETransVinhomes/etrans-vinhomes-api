@@ -17,7 +17,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{8A52A6CB-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETransVinhomesAPI", "ETransVinhomesAPI\ETransVinhomesAPI.csproj", "{4745E3D2-E5F2-4DE9-AC72-FC8F02182184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{4DE24FA8-9A07-4741-AB7C-80B5A3A02F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{4DE24FA8-9A07-4741-AB7C-80B5A3A02F19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77D2D781-8E99-45C2-8AFE-745DB9E8B692}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{63C683A7-4723-4E87-A73F-44E08301F1B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotAPIGateway", "OcelotAPIGateway\OcelotAPIGateway.csproj", "{29E7F869-803C-4595-9DE0-04046F6218DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +50,10 @@ Global
 		{4DE24FA8-9A07-4741-AB7C-80B5A3A02F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DE24FA8-9A07-4741-AB7C-80B5A3A02F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DE24FA8-9A07-4741-AB7C-80B5A3A02F19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29E7F869-803C-4595-9DE0-04046F6218DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29E7F869-803C-4595-9DE0-04046F6218DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29E7F869-803C-4595-9DE0-04046F6218DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29E7F869-803C-4595-9DE0-04046F6218DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +63,7 @@ Global
 		{19A09C06-FEFA-48A5-82AB-4388E846DF87} = {B7430E4B-5BD9-431E-ABA2-F684B922E0B7}
 		{4745E3D2-E5F2-4DE9-AC72-FC8F02182184} = {8A52A6CB-CFCC-4D6D-A3EF-A4DC14E5A7D7}
 		{4DE24FA8-9A07-4741-AB7C-80B5A3A02F19} = {3C6E1D74-7E4D-4AD7-A0E7-34DCB5717D6D}
+		{29E7F869-803C-4595-9DE0-04046F6218DE} = {63C683A7-4723-4E87-A73F-44E08301F1B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B3DCFD2-D02F-4ACC-AB92-5357D7676423}

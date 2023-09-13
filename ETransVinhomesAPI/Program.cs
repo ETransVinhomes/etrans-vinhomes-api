@@ -1,3 +1,4 @@
+using ETransVinhomesAPI;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
 
@@ -10,10 +11,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddServices(builder.Configuration.GetConnectionString("Default")!);
+builder.Services.AddWebApiServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseSwagger();
     app.UseSwaggerUI();
