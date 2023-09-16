@@ -4,7 +4,7 @@
   },
   "Routes": [
     {
-      "UpstreamPathTemplate": "/gateway/location-types",
+      "UpstreamPathTemplate": "/gateway/api/location-types",
       "UpstreamHttpMethod": [ "Get" ],
       "UpstreamScheme": "http",
       "DownstreamPathTemplate": "/api/locationtypes",
@@ -18,7 +18,7 @@
 
     },
     {
-      "UpstreamPathTemplate": "/gateway/location-types/{id}",
+      "UpstreamPathTemplate": "/gateway/api/location-types/{id}",
       "UpstreamHttpMethod": [ "Get", "Delete" ],
       "UpstreamScheme": "http",
       "DownstreamPathTemplate": "/api/locationtypes/{id}",
@@ -29,6 +29,33 @@
           "Port": 80
         }
       ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/api/auth/login",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/auth/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-auth-api",
+          "Port": 80
+        }
+      ]
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/api/auth/register",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/auth/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-auth-api",
+          "Port": 80
+        }
+      ]
     }
+
   ]
 }

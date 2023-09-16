@@ -17,6 +17,7 @@ namespace ETransVinhomesAPI.Controllers
             return Ok(await _locationTypeService.GetAllLocationTypeAsync());
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
