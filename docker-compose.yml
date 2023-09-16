@@ -20,6 +20,17 @@ services:
     - CONNECTIONSTRINGS__DEFAULT=Server=sql-server;Database=ETransVinhomes;Trusted_Connection=False;User Id=sa;Password=z@123456!;MultipleActiveResultSets=true;TrustServerCertificate=true
     ports:
     - "4201:80"
+  e-trans-vinhomes-auth-api:
+    container_name: e-trans-vinhomes-auth-api
+    tty: true
+    image: ${DOCKER_REGISTRY-}e-trans-vinhomes-auth-api:v1
+    build: 
+      context: .
+      dockerfile: ETransVinhomes.AuthAPI/Dockerfile
+    environment:
+    - CONNECTIONSTRINGS__DEFAULT=Server=sql-server;Database=ETransVinhomes.Auth;Trusted_Connection=False;User Id=sa;Password=z@123456!;MultipleActiveResultSets=true;TrustServerCertificate=true
+    ports:
+    - "4202:80"
   ocelot-api-gateway:
     container_name: ocelot-gateway
     image: ${DOCKER_REGISTRY-}ocelot-api-gateway:v1

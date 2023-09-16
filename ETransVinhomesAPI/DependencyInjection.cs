@@ -1,5 +1,9 @@
 ﻿using ETransVinhomesAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Services.Services.Interfaces;
+using System.Text;
 
 namespace ETransVinhomesAPI
 {
@@ -9,11 +13,62 @@ namespace ETransVinhomesAPI
         {
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(opt =>
+            {
+                opt.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Description = "Bearer Generated JWT-Token",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+
+                });
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        }, new string[] { }
+                    }
+                });
+            });
             services.AddHealthChecks();
             services.AddHttpContextAccessor();
             services.AddSingleton<IClaimsService, ClaimsService>();
             return services;
+        }
+
+        public static WebApplicationBuilder AddETransAuthentication(this WebApplicationBuilder builder)
+        {
+            var settingsSection = builder.Configuration.GetSection("ApiSettings");
+            var secret = settingsSection.GetValue<string>("Secret");
+            var issuer = settingsSection.GetValue<string>("Issuer");
+            var audience = settingsSection.GetValue<string>("Audience");
+            var key = Encoding.ASCII.GetBytes(secret!);
+            builder.Services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    ValidateAudience = true
+                };
+            });
+            builder.Services.AddAuthentication();
+            return builder;
         }
     }
 }
