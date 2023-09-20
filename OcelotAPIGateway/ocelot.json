@@ -4,10 +4,66 @@
   },
   "Routes": [
     {
+      "UpstreamPathTemplate": "/gateway/api/locations",
+      "UpstreamHttpMethod": [ "Post", "Put" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/locations/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/api/locations/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/locations/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/api/locations",
+      "UpstreamHttpMethod": [ "Get" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/locations",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
       "UpstreamPathTemplate": "/gateway/api/location-types",
       "UpstreamHttpMethod": [ "Get" ],
       "UpstreamScheme": "http",
-      "DownstreamPathTemplate": "/api/locationtypes",
+      "DownstreamPathTemplate": "/api/location-types",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/api/location-types",
+      "UpstreamHttpMethod": [ "Post", "Put" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/location-types",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,7 +77,7 @@
       "UpstreamPathTemplate": "/gateway/api/location-types/{id}",
       "UpstreamHttpMethod": [ "Get", "Delete" ],
       "UpstreamScheme": "http",
-      "DownstreamPathTemplate": "/api/locationtypes/{id}",
+      "DownstreamPathTemplate": "/api/location-types/{id}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
