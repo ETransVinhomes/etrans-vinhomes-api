@@ -18,10 +18,20 @@ public class LocationController : BaseController
 	/// <summary>
 	/// Get all locations
 	/// </summary>
+	/// <response code ="200"></response>
 	[HttpGet]
-	public async Task<IActionResult> GetAll()
+	public async Task<IActionResult> GetAll([FromQuery] string typeName = "")
 	{
-		var locationList = await _locationService.GetAllAsync();
+		IEnumerable<LocationViewModel> locationList;
+		if (string.IsNullOrEmpty(typeName))
+		{
+			locationList = await _locationService.GetAllAsync();
+		}
+		else
+		{
+			locationList = await _locationService.FindAsync(typeName);
+		}
+
 		_response.Result = locationList;
 		return Ok(_response);
 	}
@@ -31,6 +41,7 @@ public class LocationController : BaseController
 	/// </summary>
 	/// <param name="id">Guid</param>
 	/// <returns></returns>
+	/// /// <response code ="200"></response>
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(Guid id)
 	{
@@ -48,13 +59,14 @@ public class LocationController : BaseController
 	{
 		var createdLocation = await _locationService.CreateAsync(model);
 		_response.Result = createdLocation;
-		return Ok(_response);
+		return CreatedAtRoute(nameof(GetById), new { id = createdLocation.Id }, _response);
 	}
 	/// <summary>
 	/// Delete Location
 	/// </summary>
 	/// <param name="id">Guid</param>
 	/// <returns>No Content - 204</returns>
+	/// <response code="204"></response>
 	[HttpDelete("{id}")]
 	public async Task<IActionResult> Delete(Guid id)
 	{

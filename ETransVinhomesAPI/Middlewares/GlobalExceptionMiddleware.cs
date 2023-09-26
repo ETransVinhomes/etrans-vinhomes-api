@@ -6,14 +6,12 @@ namespace ETransVinhomesAPI.Middlewares
 {
 	public class GlobalExceptionMiddleware : IMiddleware
 	{
-		private readonly RequestDelegate _next;
 		private readonly ILogger<GlobalExceptionMiddleware> _logger;
-		public GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger)
+		public GlobalExceptionMiddleware(ILogger<GlobalExceptionMiddleware> logger)
 		{
-			_next = next;
 			_logger = logger;
 		}
-		public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+		public async Task InvokeAsync(HttpContext context, RequestDelegate _next)
 		{
 			try
 			{

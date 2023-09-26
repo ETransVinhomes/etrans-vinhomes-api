@@ -2,9 +2,10 @@
 
 namespace ETransVinhomesAPI.Controllers
 {
-    [Route("api/[controller]s")]
-    [ApiController]
-    public class BaseController : ControllerBase
-    {
-    }
+	[Produces("application/json")]
+	[Route("api/[controller]s")]
+	[ApiController]
+	public class BaseController : ControllerBase
+	{
+	}
 }

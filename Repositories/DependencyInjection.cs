@@ -15,6 +15,7 @@ namespace Repositories
 		{
 
 			services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(dbConnection));
+
 			services.AddScoped<ICurrentTime, CurrentTime>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddAutoMapper(typeof(MapperConfigurationProfiles).Assembly);
@@ -35,7 +36,8 @@ namespace Repositories
 
 			#region DI_SERVICES
 			services.AddScoped<ILocationTypeService, LocationTypeService>()
-				.AddScoped<ILocationService, LocationService>();
+				.AddScoped<ILocationService, LocationService>()
+				.AddScoped<IProviderService, ProviderService>();
 			#endregion
 			return services;
 		}

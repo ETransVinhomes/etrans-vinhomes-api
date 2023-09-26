@@ -41,9 +41,13 @@ namespace Services.Services
 
 		}
 
-		public Task<IEnumerable<LocationViewModel>> FindAsync(string searchString)
+		public async Task<IEnumerable<LocationViewModel>> FindAsync(string searchString, bool isLocationType = true)
 		{
-			throw new NotImplementedException();
+			return isLocationType ?
+				_mapper.Map<IEnumerable<LocationViewModel>>(await _unitOfWork.LocationRepository
+				.FindListByField(x => x.LocationType.Name.ToLower().Contains(searchString.ToLower()), x => x.LocationType))
+				: _mapper.Map<IEnumerable<LocationViewModel>>(await _unitOfWork.LocationRepository
+				.FindListByField(x => x.Name.ToLower().Contains(searchString), x => x.LocationType));
 		}
 
 		public async Task<IEnumerable<LocationViewModel>> GetAllAsync()

@@ -15,6 +15,13 @@ namespace ETransVinhomesAPI.Controllers
 			_locationTypeService = locationTypeService;
 			_response = new ResponseModel();
 		}
+
+		/// <summary>
+		/// Get all Location Types
+		/// </summary>
+		/// <returns></returns>
+		/// <exception cref="InvalidDataException"></exception>
+		/// <response code="200"></response>
 		[HttpGet]
 		public async Task<IActionResult> GetAll()
 		{
@@ -34,12 +41,22 @@ namespace ETransVinhomesAPI.Controllers
 		/// <param name="id">Guid</param>
 		/// <returns>Ok - 200 - ResponseModel object</returns>
 		/// <exception cref="Exception">Not found</exception>
+		/// <response code="200"></response>
+		/// <response code="400"></response>
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetById(Guid id)
 		{
 			var locationType = await _locationTypeService.GetLocationTypeByIdAsync(id);
 			return locationType != null ? Ok(_response.Result = locationType) : throw new Exception("Not found!");
 		}
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		/// <exception cref="Exception"></exception>
+		/// <response code="201">If create successfully</response>
+		/// <response code="400"></response>
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] LocationTypeCreateModel model)
 		{
@@ -47,7 +64,7 @@ namespace ETransVinhomesAPI.Controllers
 			if (result is not null)
 			{
 				_response.Result = result;
-				return Ok(_response);
+				return CreatedAtRoute(nameof(GetById), new { id = result.Id }, _response);
 			}
 			else throw new Exception("Create failed!");
 		}

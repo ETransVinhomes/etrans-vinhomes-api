@@ -1,4 +1,5 @@
-﻿using ETransVinhomesAPI.Services;
+﻿using ETransVinhomesAPI.Middlewares;
+using ETransVinhomesAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -13,8 +14,9 @@ namespace ETransVinhomesAPI
 		public static IServiceCollection AddWebApiServices(this IServiceCollection services)
 		{
 			services.AddRouting(opt => opt.LowercaseUrls = true);
-
 			services.AddControllers();
+			services.AddTransient<GlobalExceptionMiddleware>();
+
 			services.AddEndpointsApiExplorer();
 			services.AddSwaggerGen(opt =>
 			{

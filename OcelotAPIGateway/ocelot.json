@@ -4,10 +4,38 @@
   },
   "Routes": [
     {
+      "UpstreamPathTemplate": "/gateway/api/providers",
+      "UpstreamHttpMethod": [ "Delete", "Get" ],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/providers/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
+      "UpstreamPathTemplate": "/gateway/api/providers",
+      "UpstreamHttpMethod": [ "Post", "Put", "Get"],
+      "UpstreamScheme": "http",
+      "DownstreamPathTemplate": "/api/providers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "e-trans-vinhomes-api",
+          "Port": 80
+        }
+      ]
+
+    },
+    {
       "UpstreamPathTemplate": "/gateway/api/locations",
       "UpstreamHttpMethod": [ "Post", "Put" ],
       "UpstreamScheme": "http",
-      "DownstreamPathTemplate": "/api/locations/{id}",
+      "DownstreamPathTemplate": "/api/locations",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
