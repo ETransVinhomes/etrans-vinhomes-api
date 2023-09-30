@@ -10,11 +10,10 @@ builder.Services.AddRepositoriesServices(builder.Configuration.GetConnectionStri
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
 	app.UseSwagger();
 	app.UseSwaggerUI();
-}
+
 
 app.UseHttpsRedirection();
 app.UseMiddleware<GlobalExceptionMiddleware>();

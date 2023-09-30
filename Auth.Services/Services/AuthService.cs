@@ -1,6 +1,8 @@
-﻿using Auth.Domains.Entities;
+﻿using System.Security.Cryptography.X509Certificates;
+using Auth.Domains.Entities;
 using Auth.Services.Repositories;
 using Auth.Services.Services.Interfaces;
+using Auth.Services.ViewModels;
 using Auth.Services.ViewModels.AuthRequestDTO;
 using Auth.Services.ViewModels.AuthResponseDTO;
 using Microsoft.AspNetCore.Identity;
@@ -38,8 +40,16 @@ namespace Auth.Services.Services
             else throw new Exception("User not found!");
         }
 
-
-
+        public async Task<UserViewModel> GetUserByIdAsync(Guid id) 
+        {
+            var result = await _authRepository.GetUserByIdAsync(id);
+            return new() {
+                Email = result.Email!,
+                Id = result.Id,
+                PhoneNumber = result.PhoneNumber!,
+                Username = result.UserName!
+            };
+        }
         public Task<LoginResponseDTO> LoginAsync(string googleToken)
         {
             // Todo

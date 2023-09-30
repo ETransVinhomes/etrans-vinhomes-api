@@ -17,14 +17,19 @@ namespace ETransVinhomes.AuthAPI.Controllers
 			_authService = authService;
 			_response = new();
 		}
-		[HttpPost("login")]
+		/// <summary>
+		/// Login 
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
+		[HttpPost]
 		public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDTO model)
 		{
 			var result = await _authService.LoginAsync(model.Email, model.Password);
 			if (result is not null && !result.Token.IsNullOrEmpty())
 			{
-				_response.Result = result;
-				return Ok(_response);
+			
+				return Ok(result);
 			}
 			else
 			{
@@ -32,19 +37,6 @@ namespace ETransVinhomes.AuthAPI.Controllers
 			}
 		}
 
-		[HttpPost("register")]
-		public async Task<IActionResult> Register([FromBody] RegisterDTO model)
-		{
-			var result = await _authService.RegisterAsync(model);
-			if (result)
-			{
-				await _authService.AssignRoleASync(model.Email, "CUSTOMER");
-				return Ok();
-			}
-			else
-			{
-				return BadRequest("Failed");
-			}
-		}
+		
 	}
 }
