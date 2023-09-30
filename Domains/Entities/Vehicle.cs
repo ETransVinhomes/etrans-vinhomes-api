@@ -12,9 +12,9 @@ namespace Domain.Entities
 		public string Status { get; set; } = nameof(TransportationStatusEnum.Active);
 
 		public Driver Driver { get; set; } = default!;
-		public Guid DriverId { get; set; } = default!;
+		public Guid? DriverId { get; set; } = default!;
 		public Provider Provider { get; set; } = default!;
-		public Guid? ProviderId { get; set; } = default!;
+		public Guid ProviderId { get; set; } = default!;
 		public ICollection<Trip> Trips { get; set; } = default!;
 
 

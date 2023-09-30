@@ -59,7 +59,7 @@ public class LocationController : BaseController
 	{
 		var createdLocation = await _locationService.CreateAsync(model);
 		_response.Result = createdLocation;
-		return CreatedAtRoute(nameof(GetById), new { id = createdLocation.Id }, _response);
+		return StatusCode(StatusCodes.Status201Created, _response);
 	}
 	/// <summary>
 	/// Delete Location
@@ -85,6 +85,7 @@ public class LocationController : BaseController
 		await _locationService.UpdateAsync(model);
 		return NoContent();
 	}
+	
 
 }
 

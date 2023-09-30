@@ -37,7 +37,10 @@ namespace Repositories
 			#region DI_SERVICES
 			services.AddScoped<ILocationTypeService, LocationTypeService>()
 				.AddScoped<ILocationService, LocationService>()
-				.AddScoped<IProviderService, ProviderService>();
+				.AddScoped<IProviderService, ProviderService>()
+				.AddScoped<IDriverService, DriverService>()
+				.AddScoped<IVehicleService, VehicleService>()
+				.AddScoped<ICustomerService, CustomerService>();
 			#endregion
 			return services;
 		}

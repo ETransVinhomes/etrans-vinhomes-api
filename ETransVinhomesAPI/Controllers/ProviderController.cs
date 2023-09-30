@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using Services.Services.Interfaces;
 using Services.ViewModels.ProviderModels;
 using Services.ViewModels.ResponseModels;
@@ -22,9 +23,10 @@ namespace ETransVinhomesAPI.Controllers
 		/// <response code="200"></response>
 		/// <response code="400">Error. Detail at</response>
 		[HttpGet]
-		public async Task<IActionResult> GetAll()
+		public async Task<IActionResult> GetAll([FromQuery] string search = "")
 		{
-			var result = await _providerService.GetAllAsync();
+			var result = await _providerService.GetAllAsync(search);
+					
 			if (result.Count() > 0)
 			{
 				_response.Result = result;
@@ -75,7 +77,7 @@ namespace ETransVinhomesAPI.Controllers
 			if (result is not null)
 			{
 				_response.Result = result;
-				return CreatedAtRoute(nameof(GetById), new { id = result.Id }, _response);
+				return StatusCode(StatusCodes.Status201Created, _response);
 			}
 			else throw new Exception("Create failed!");
 		}

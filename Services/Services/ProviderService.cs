@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
 using Services.Services.Interfaces;
 using Services.ViewModels.ProviderModels;
 
@@ -32,24 +33,23 @@ namespace Services.Services
 			var provider = await _unitOfWork.ProviderRepository.GetByIdAsync(id, x => x.Vehicles, x => x.Routes);
 			if (provider is not null)
 			{
-				
-					_unitOfWork.ProviderRepository.SoftRemove(provider);
-					return await _unitOfWork.SaveChangesAsync() ? true : throw new Exception("Save changes failed!");
-
-				
+				provider.Status = nameof(StatusEnum.InActive);
+				_unitOfWork.ProviderRepository.Update(provider);
+				_unitOfWork.ProviderRepository.SoftRemove(provider);
+				// Todo, Publish Message, Delete Account of Provider
+				return await _unitOfWork.SaveChangesAsync() ? true : throw new Exception("Save changes failed!");
 			}
 			else throw new Exception($"Not found provider with Id:{id}");
 		}
 
-		public async Task<IEnumerable<ProviderViewModel>> GetAllAsync()
+		public async Task<IEnumerable<ProviderViewModel>> GetAllAsync(string search)
 		=> _mapper.Map<IEnumerable<ProviderViewModel>>
-			(await _unitOfWork.ProviderRepository
-			.GetAllAsync());
+			(string.IsNullOrEmpty(search) 
+			? _mapper.Map<IEnumerable<ProviderViewModel>>(await _unitOfWork.ProviderRepository.GetAllAsync())
+			: _mapper.Map<IEnumerable<ProviderViewModel>>(await _unitOfWork.ProviderRepository.FindListByField(x => x.Name.ToLower().Contains(search.ToLower()))));
 
-
-
-
-		public async Task<ProviderViewModel> GetByIdAsync(Guid id)
+       
+        public async Task<ProviderViewModel> GetByIdAsync(Guid id)
 		{
 			var provider = await _unitOfWork.ProviderRepository.GetByIdAsync(id, x => x.Routes, x => x.Vehicles);
 			return provider is not null

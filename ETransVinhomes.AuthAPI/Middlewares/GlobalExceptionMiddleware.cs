@@ -7,14 +7,14 @@ namespace ETransVinhomes.AuthAPI.Middlewares
 	public class GlobalExceptionMiddleware : IMiddleware
 	{
 		private readonly ILogger<GlobalExceptionMiddleware> _logger;
-		private readonly RequestDelegate _next;
-		public GlobalExceptionMiddleware(ILogger<GlobalExceptionMiddleware> logger, RequestDelegate next)
+
+		public GlobalExceptionMiddleware(ILogger<GlobalExceptionMiddleware> logger)
 		{
 			_logger = logger;
-			_next = next;
+
 		}
 
-		public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+		public async Task InvokeAsync(HttpContext context, RequestDelegate _next)
 		{
 			try
 			{

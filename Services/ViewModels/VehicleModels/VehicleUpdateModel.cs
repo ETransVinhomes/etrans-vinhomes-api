@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Services.ViewModels.VehicleModels
 {
-	public class VehicleUpdateModel
+	public class VehicleUpdateModel : VehicleCreateModel
 	{
+		public Guid Id { get; set; }
 	}
 }

@@ -29,9 +29,6 @@ namespace Services.Services
 			var location = await _unitOfWork.LocationRepository.GetByIdAsync(id, x => x.StartRouteLocations, x => x.EndRouteLocations);
 			if (location is not null)
 			{
-				if (location.EndRouteLocations is not null && location.EndRouteLocations.Count() > 0
-					&& location.StartRouteLocations is not null && location.StartRouteLocations.Count() > 0)
-					throw new Exception("Start or End Location has beend assigned! Can not delete!");
 				_unitOfWork.LocationRepository.SoftRemove(location);
 				return await _unitOfWork.SaveChangesAsync() ? true : throw new Exception("Save changes failed!");
 
