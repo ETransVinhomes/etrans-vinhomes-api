@@ -1,10 +1,12 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Auth.Domains.Entities;
+﻿using Auth.Domains.Entities;
+using Auth.Domains.Enums;
+using Auth.Services.AsyncDataServices.Interfaces;
 using Auth.Services.Repositories;
 using Auth.Services.Services.Interfaces;
 using Auth.Services.ViewModels;
 using Auth.Services.ViewModels.AuthRequestDTO;
 using Auth.Services.ViewModels.AuthResponseDTO;
+using Auth.Services.ViewModels.PublishedAccountModels;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Services.Services
@@ -15,13 +17,15 @@ namespace Auth.Services.Services
         private readonly UserManager<AppUser> _appUser;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IJWTTokenGenerator _jwtTokenGenerator;
+        private readonly IMessageBusClient _messageBusClient;
         public AuthService(IAuthRepository authRepository, UserManager<AppUser> userManager
-            , RoleManager<AppRole> roleManager, IJWTTokenGenerator jwtTokenGenerator)
+            , RoleManager<AppRole> roleManager, IJWTTokenGenerator jwtTokenGenerator, IMessageBusClient messageBusClient)
         {
             _authRepository = authRepository;
             _appUser = userManager;
             _roleManager = roleManager;
             _jwtTokenGenerator = jwtTokenGenerator;
+            _messageBusClient = messageBusClient;
         }
         public async Task<bool> AssignRoleASync(string email, string roleName)
         {
@@ -34,20 +38,33 @@ namespace Auth.Services.Services
                     _roleManager.CreateAsync(new AppRole { Name = roleName }).GetAwaiter().GetResult();
 
                 }
+                if (roleName != "ADMIN")
+                {
+                    _messageBusClient.PublishNewAccount(new UserPublishedModel
+                    {
+                        Id = user.Id,
+                        Email = user.Email!,
+                        Role = roleName,
+                        Name = user.Name,
+                        PhoneNumber = user.PhoneNumber!,
+                        Event = nameof(EventType.UserCreation)
+                    });
+                }
                 await _appUser.AddToRoleAsync(user, roleName);
                 return true;
             }
             else throw new Exception("User not found!");
         }
 
-        public async Task<UserViewModel> GetUserByIdAsync(Guid id) 
+        public async Task<UserViewModel> GetUserByIdAsync(Guid id)
         {
             var result = await _authRepository.GetUserByIdAsync(id);
-            return new() {
+            return new()
+            {
                 Email = result.Email!,
                 Id = result.Id,
                 PhoneNumber = result.PhoneNumber!,
-                Username = result.UserName!
+                Name = result.Name
             };
         }
         public Task<LoginResponseDTO> LoginAsync(string googleToken)
@@ -70,7 +87,7 @@ namespace Auth.Services.Services
                         Id = user.Id,
                         PhoneNumber = user.PhoneNumber!
                     },
-                    Token = _jwtTokenGenerator.GenerateToken(user, (await _appUser.GetRolesAsync(user)))
+                    Token = _jwtTokenGenerator.GenerateToken(user, await _appUser.GetRolesAsync(user))
                 };
             }
             else
@@ -88,14 +105,16 @@ namespace Auth.Services.Services
         {
             var user = new AppUser
             {
-                UserName = registerDTO.Username,
+                Name = registerDTO.Name,
                 PhoneNumber = registerDTO.PhoneNumber,
                 Email = registerDTO.Email,
                 NormalizedEmail = registerDTO.Email,
+                UserName = "defaultUser" + Random.Shared.NextInt64()
 
             };
             try
             {
+                if(await _authRepository.FindUserAsync(x => x.Email == user.Email) != null) throw new Exception($"--> Error: Duplicate Email: {user.Email}");
                 var result = await _appUser.CreateAsync(user, registerDTO.Password);
                 if (result.Succeeded)
                 {

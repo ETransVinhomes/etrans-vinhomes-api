@@ -11,11 +11,10 @@ namespace ETransVinhomes.AuthAPI.Controllers
 	public class AuthenticationController : ControllerBase
 	{
 		private readonly IAuthService _authService;
-		private readonly ResponseModel _response;
 		public AuthenticationController(IAuthService authService)
 		{
 			_authService = authService;
-			_response = new();
+
 		}
 		/// <summary>
 		/// Login 

@@ -9,11 +9,10 @@ namespace ETransVinhomesAPI.Controllers
 	public class ProviderController : BaseController
 	{
 		private readonly IProviderService _providerService;
-		private readonly ResponseModel _response;
 		public ProviderController(IProviderService providerService)
 		{
 			_providerService = providerService;
-			_response = new();
+		
 		}
 
 		/// <summary>
@@ -23,14 +22,14 @@ namespace ETransVinhomesAPI.Controllers
 		/// <response code="200"></response>
 		/// <response code="400">Error. Detail at</response>
 		[HttpGet]
-		public async Task<IActionResult> GetAll([FromQuery] string search = "")
+		public async Task<IActionResult> GetAll()
 		{
-			var result = await _providerService.GetAllAsync(search);
+			var result = await _providerService.GetAllAsync();
 					
 			if (result.Count() > 0)
 			{
-				_response.Result = result;
-				return Ok(_response);
+				
+				return Ok(result.AsQueryable());
 			}
 			else throw new Exception("List is emptied! Please add provider First!");
 		}
@@ -47,8 +46,8 @@ namespace ETransVinhomesAPI.Controllers
 			var result = await _providerService.GetByIdAsync(id);
 			if (result is not null)
 			{
-				_response.Result = result;
-				return Ok(_response);
+				
+				return Ok(result);
 			}
 			else throw new Exception("Not found!");
 		}
@@ -76,8 +75,8 @@ namespace ETransVinhomesAPI.Controllers
 			var result = await _providerService.CreateAsync(model);
 			if (result is not null)
 			{
-				_response.Result = result;
-				return StatusCode(StatusCodes.Status201Created, _response);
+				
+				return StatusCode(StatusCodes.Status201Created, result);
 			}
 			else throw new Exception("Create failed!");
 		}

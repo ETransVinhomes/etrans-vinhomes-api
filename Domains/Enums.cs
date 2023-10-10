@@ -30,5 +30,18 @@
         Failed = 1,
         Completed = 2,
     }
+    public enum EventType
+    {
+        UserCreation,
+        UserDelete,
+        UserModified,
+        Undefined
+    }
 
+    public enum RoleEnum
+    {
+        Customer,
+        Provider,
+        Driver
+    }
 }

@@ -23,6 +23,9 @@ services:
   e-trans-vinhomes-api:
     container_name: e-trans-vinhomes-api
     tty: true
+    depends_on:
+      - rabbitmq
+      - sql-server
     image: ${DOCKER_REGISTRY-}e-trans-vinhomes-api:v1
     build:
       context: .
@@ -31,10 +34,19 @@ services:
     - CONNECTIONSTRINGS__DEFAULT=Server=sql-server;Database=ETransVinhomes;Trusted_Connection=False;User Id=sa;Password=z@123456!;MultipleActiveResultSets=true;TrustServerCertificate=true
     ports:
     - "4201:80"
+    healthcheck:
+      test: curl --fail http://localhost:/4201 || exit 1
+      interval: 1m30s
+      timeout: 15s
+      retries: 5
+      start_period: 30s
   e-trans-vinhomes-auth-api:
     container_name: e-trans-vinhomes-auth-api
     tty: true
     image: ${DOCKER_REGISTRY-}e-trans-vinhomes-auth-api:v1
+    depends_on:
+      - rabbitmq
+      - sql-server
     build: 
       context: .
       dockerfile: ETransVinhomes.AuthAPI/Dockerfile

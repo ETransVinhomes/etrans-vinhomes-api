@@ -121,6 +121,7 @@ namespace Repositories.Repositories
            .Aggregate(_dbSet!.AsQueryable(),
                (entity, property) => entity.Include(property)).AsNoTracking()
            .Where(expression!)
+           .Where(x => x.IsDeleted == false)
             .OrderByDescending(x => x.CreationDate)
             .ToListAsync();
     }

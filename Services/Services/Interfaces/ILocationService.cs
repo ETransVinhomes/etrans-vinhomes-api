@@ -11,5 +11,7 @@ namespace Services.Services.Interfaces
 		Task<LocationViewModel> CreateAsync(LocationCreateModel model);
 		Task<bool> UpdateAsync(LocationUpdateModel model);
 		Task<bool> DeleteAsync(Guid id);
+		Task<bool> CreateRangeAsync(List<LocationCreateModel> model);
+
 	}
 }

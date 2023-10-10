@@ -7,19 +7,19 @@ namespace ETransVinhomesAPI.Controllers;
 public class DriverController : BaseController
 {
     private readonly IDriverService _driverService;
-    private readonly ResponseModel _response;
+
     public DriverController(IDriverService driverService)
     {
-        _response = new();
+
         _driverService = driverService;
     }
     
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] string search = "") 
+    public async Task<IActionResult> Get() 
     {
-        var result = await _driverService.GetAllDrivers(search);
-        _response.Result = result;
-        return Ok(_response);
+        var result = await _driverService.GetAllDrivers();
+
+        return Ok(result.AsQueryable());
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id) 
@@ -27,8 +27,8 @@ public class DriverController : BaseController
         var result = await _driverService.GetDriverById(id);   
         if(result is not null) 
         {
-            _response.Result = result;
-            return Ok(_response);
+
+            return Ok(result);
         } else throw new Exception($"Not found Driver With Id: {id}");
     }
 
@@ -38,8 +38,8 @@ public class DriverController : BaseController
         var result = await _driverService.CreateDriver(model);
         if(result is not null) 
         {
-            _response.Result = result;
-            return StatusCode(StatusCodes.Status201Created, _response);
+
+            return StatusCode(StatusCodes.Status201Created, result);
         } else throw new Exception("Created Driver Failed!");
     }
 
@@ -49,7 +49,6 @@ public class DriverController : BaseController
         var result = await _driverService.UpdateDriver(model);
         if(result is not null) 
         {
-            _response.Result = result;
             return StatusCode(StatusCodes.Status204NoContent, result);
         } else throw new Exception($"Updated Driver With Id: {model.Id} Failed!");
     }
@@ -60,9 +59,7 @@ public class DriverController : BaseController
         var result = await _driverService.GetDriverById(id);
         if(result is not null)
         {
-            _response.Result = result;
-            _response.Message = $"Delete Driver with Id: {id} successfully!";
-            return StatusCode(StatusCodes.Status204NoContent, _response);
+           return NoContent();
         } else 
         {
             throw new Exception($"Delete Driver With Id: {id} Failed!");

@@ -8,11 +8,10 @@ namespace ETransVinhomesAPI.Controllers;
 public class LocationController : BaseController
 {
 	private readonly ILocationService _locationService;
-	private readonly ResponseModel _response;
+
 	public LocationController(ILocationService locationService)
 	{
 		_locationService = locationService;
-		_response = new();
 	}
 
 	/// <summary>
@@ -20,20 +19,10 @@ public class LocationController : BaseController
 	/// </summary>
 	/// <response code ="200"></response>
 	[HttpGet]
-	public async Task<IActionResult> GetAll([FromQuery] string typeName = "")
+	public async Task<IActionResult> GetAll()
 	{
-		IEnumerable<LocationViewModel> locationList;
-		if (string.IsNullOrEmpty(typeName))
-		{
-			locationList = await _locationService.GetAllAsync();
-		}
-		else
-		{
-			locationList = await _locationService.FindAsync(typeName);
-		}
-
-		_response.Result = locationList;
-		return Ok(_response);
+		var result = await _locationService.GetAllAsync();
+		return Ok(result);
 	}
 
 	/// <summary>
@@ -46,21 +35,11 @@ public class LocationController : BaseController
 	public async Task<IActionResult> GetById(Guid id)
 	{
 		var location = await _locationService.GetByIdAsync(id);
-		_response.Result = location;
-		return Ok(_response);
+
+		return Ok(location);
 	}
-	/// <summary>
-	/// Create location
-	/// </summary>
-	/// <param name="model">LocationCreateModel</param>
-	/// <returns>ResponseModel</returns>
-	[HttpPost]
-	public async Task<IActionResult> Create([FromBody] LocationCreateModel model)
-	{
-		var createdLocation = await _locationService.CreateAsync(model);
-		_response.Result = createdLocation;
-		return StatusCode(StatusCodes.Status201Created, _response);
-	}
+	
+	
 	/// <summary>
 	/// Delete Location
 	/// </summary>
@@ -86,6 +65,12 @@ public class LocationController : BaseController
 		return NoContent();
 	}
 	
+	[HttpPost]
+	public async Task<IActionResult> Create([FromBody]List<LocationCreateModel> models)
+	{
+		return await _locationService.CreateRangeAsync(models) ? StatusCode(StatusCodes.Status201Created) : BadRequest("Create Failed!");
+		
+	}
 
 }
 

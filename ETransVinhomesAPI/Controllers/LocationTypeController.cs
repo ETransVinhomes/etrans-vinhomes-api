@@ -9,11 +9,11 @@ namespace ETransVinhomesAPI.Controllers
 	public class LocationTypeController : BaseController
 	{
 		private readonly ILocationTypeService _locationTypeService;
-		private readonly ResponseModel _response;
+
 		public LocationTypeController(ILocationTypeService locationTypeService)
 		{
 			_locationTypeService = locationTypeService;
-			_response = new ResponseModel();
+
 		}
 
 		/// <summary>
@@ -28,8 +28,8 @@ namespace ETransVinhomesAPI.Controllers
 			var locationTypeList = await _locationTypeService.GetAllLocationTypeAsync();
 			if (locationTypeList.Count() > 0)
 			{
-				_response.Result = locationTypeList;
-				return Ok(_response);
+
+				return Ok(locationTypeList);
 			}
 			else throw new InvalidDataException("LocationType is null");
 
@@ -47,7 +47,7 @@ namespace ETransVinhomesAPI.Controllers
 		public async Task<IActionResult> GetById(Guid id)
 		{
 			var locationType = await _locationTypeService.GetLocationTypeByIdAsync(id);
-			return locationType != null ? Ok(_response.Result = locationType) : throw new Exception("Not found!");
+			return locationType != null ? Ok(locationType) : throw new Exception("Not found!");
 		}
 		/// <summary>
 		/// 
@@ -63,8 +63,8 @@ namespace ETransVinhomesAPI.Controllers
 			var result = await _locationTypeService.CreateLocationTypeAsync(model);
 			if (result is not null)
 			{
-				_response.Result = result;
-				return CreatedAtRoute(nameof(GetById), new { id = result.Id }, _response);
+
+				return CreatedAtRoute(nameof(GetById), new { id = result.Id }, result);
 			}
 			else throw new Exception("Create failed!");
 		}

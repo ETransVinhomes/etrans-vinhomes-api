@@ -42,7 +42,7 @@ namespace Services.Services
 			=> _mapper.Map<IEnumerable<DriverViewModel>>(string.IsNullOrEmpty(search) 
 			? await _unitOfWork.DriverRepository.GetAllAsync()
 			: await _unitOfWork.DriverRepository
-			.FindListByField(x => x.LastName.ToLower().Contains(search.ToLower()) || x.FirstName.ToLower().Contains(search.ToLower())));
+			.FindListByField(x => x.Name.ToLower().Contains(search.ToLower())));
         public async Task<DriverViewModel> GetDriverById(Guid id)
         => _mapper.Map<DriverViewModel>(await _unitOfWork.DriverRepository.GetByIdAsync(id)); 
         

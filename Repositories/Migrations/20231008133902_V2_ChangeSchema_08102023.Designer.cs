@@ -12,8 +12,8 @@ using Repositories;
 namespace Repositories.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230929013812_V1_ModifyRelationship")]
-    partial class V1_ModifyRelationship
+    [Migration("20231008133902_V2_ChangeSchema_08102023")]
+    partial class V2_ChangeSchema_08102023
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace Repositories.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DeleteBy")
@@ -50,16 +50,11 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ModificationBy")
                         .HasColumnType("uniqueidentifier");
@@ -67,11 +62,15 @@ namespace Repositories.Migrations
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Sex")
+                    b.Property<bool?>("Sex")
                         .HasColumnType("bit");
 
                     b.Property<string>("Status")
@@ -95,7 +94,7 @@ namespace Repositories.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DeleteBy")
@@ -104,16 +103,11 @@ namespace Repositories.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ModificationBy")
                         .HasColumnType("uniqueidentifier");
@@ -121,10 +115,18 @@ namespace Repositories.Migrations
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
-                    b.Property<bool>("Sex")
+                    b.Property<bool?>("Sex")
                         .HasColumnType("bit");
 
                     b.Property<string>("Status")
@@ -215,15 +217,15 @@ namespace Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5fa948d7-9757-4911-815e-619f36ed4170"),
-                            CreationDate = new DateTime(2023, 9, 29, 8, 38, 12, 607, DateTimeKind.Local).AddTicks(6113),
+                            Id = new Guid("0453ff94-f5a1-47f8-be07-8e687ef0513e"),
+                            CreationDate = new DateTime(2023, 10, 8, 20, 39, 2, 145, DateTimeKind.Local).AddTicks(7730),
                             IsDeleted = false,
                             Name = "Indoor"
                         },
                         new
                         {
-                            Id = new Guid("c06c409a-574e-48bf-8fc8-b7de225fc61a"),
-                            CreationDate = new DateTime(2023, 9, 29, 8, 38, 12, 607, DateTimeKind.Local).AddTicks(6130),
+                            Id = new Guid("be7348c9-0653-4d1e-92bf-cf144a15976a"),
+                            CreationDate = new DateTime(2023, 10, 8, 20, 39, 2, 145, DateTimeKind.Local).AddTicks(7733),
                             IsDeleted = false,
                             Name = "Outdoor"
                         });
@@ -328,7 +330,6 @@ namespace Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("CreatedBy")
@@ -342,6 +343,9 @@ namespace Repositories.Migrations
 
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ExternalId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -367,6 +371,30 @@ namespace Repositories.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Provider");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("563d5c2e-31d7-4d8f-98c5-2ef8c6ca6fc8"),
+                            Address = "VietNam",
+                            CreationDate = new DateTime(2023, 10, 8, 20, 39, 2, 145, DateTimeKind.Local).AddTicks(7479),
+                            ExternalId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = false,
+                            Name = "VinETrans",
+                            PhoneNumber = "0778020298",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("ec1813e1-b945-4b1f-a179-52d63e024aab"),
+                            Address = "Norway",
+                            CreationDate = new DateTime(2023, 10, 8, 20, 39, 2, 145, DateTimeKind.Local).AddTicks(7499),
+                            ExternalId = new Guid("00000000-0000-0000-0000-000000000000"),
+                            IsDeleted = false,
+                            Name = "Phuong Trang ETrans",
+                            PhoneNumber = "0778020298",
+                            Status = "Active"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Route", b =>
@@ -411,6 +439,9 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("TotalDistance")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
@@ -436,8 +467,14 @@ namespace Repositories.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("Distance")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("EndLocationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -555,6 +592,9 @@ namespace Repositories.Migrations
                     b.Property<string>("Policy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<float>("Rating")
                         .HasColumnType("real");

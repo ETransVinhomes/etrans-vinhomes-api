@@ -1,6 +1,8 @@
 ﻿using Auth.Repositories.Data;
 using Auth.Repositories.Mappers;
 using Auth.Repositories.Repositories;
+using Auth.Services.AsyncDataServices;
+using Auth.Services.AsyncDataServices.Interfaces;
 using Auth.Services.Repositories;
 using Auth.Services.Services;
 using Auth.Services.Services.Interfaces;
@@ -18,6 +20,7 @@ namespace Auth.Repositories
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJWTTokenGenerator, JWTTokenGenerator>();
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
             return services;
         }
     }

@@ -7,18 +7,18 @@ namespace ETransVinhomesAPI.Controllers;
 public class CustomerController : BaseController
 {
     private readonly ICustomerService _customerService;
-    private ResponseModel _response;
+
     public CustomerController(ICustomerService customerService)
     {
         _customerService = customerService;
-        _response = new();
+
     }
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         var result = await _customerService.GetCustomers();
-        _response.Result = result;
-        return Ok(_response);
+
+        return Ok(result.AsQueryable());
     }
 
     [HttpGet("{id}")]
@@ -27,7 +27,7 @@ public class CustomerController : BaseController
         var result = await _customerService.GetCustomerById(id);
         if(result is not null) 
         {
-            _response.Result = result;
+
             return Ok(result);
         } else throw new Exception($"Not found Customer with Id: {id}");
     }
@@ -38,8 +38,8 @@ public class CustomerController : BaseController
         var result = await _customerService.CreateCustomer(model);
         if(result is not null)
         {
-            _response.Result = result;
-            return StatusCode(StatusCodes.Status201Created, _response);
+
+            return StatusCode(StatusCodes.Status201Created, result);
         } else {
             throw new Exception("Create failed!");
         }
@@ -51,8 +51,8 @@ public class CustomerController : BaseController
         var result = await _customerService.UpdateCustomer(model);
         if(result is not null)
         {
-            _response.Result = result;
-            return StatusCode(StatusCodes.Status204NoContent, _response);
+
+            return StatusCode(StatusCodes.Status204NoContent, result);
         }
         throw new Exception("Update failed!");
     }
@@ -60,7 +60,7 @@ public class CustomerController : BaseController
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id) 
     {
-        var result  = await _customerService.DeleteCustomer(id);
+       await _customerService.DeleteCustomer(id);
         return NoContent();
         
     }

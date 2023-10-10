@@ -35,7 +35,9 @@ public class UsersController : ControllerBase
 			var result = await _authService.RegisterAsync(model);
 			if (result)
 			{
-				await _authService.AssignRoleASync(model.Email, "CUSTOMER");
+                if(string.IsNullOrEmpty(model.RoleName))
+				    await _authService.AssignRoleASync(model.Email, "CUSTOMER");
+                else await _authService.AssignRoleASync(model.Email, model.RoleName);
 				return StatusCode(StatusCodes.Status201Created);
 			}
 			else

@@ -4,7 +4,7 @@ namespace Services.Services.Interfaces
 {
 	public interface IProviderService
 	{
-		Task<IEnumerable<ProviderViewModel>> GetAllAsync(string search);
+		Task<IEnumerable<ProviderViewModel>> GetAllAsync(string search = "");
 		Task<ProviderViewModel> GetByIdAsync(Guid id);
 		Task<ProviderViewModel> CreateAsync(ProviderCreateModel model);
 		Task<bool> UpdateAsync(ProviderUpdateModel model);

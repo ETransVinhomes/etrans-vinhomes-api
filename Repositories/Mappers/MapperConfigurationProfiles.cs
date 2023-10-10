@@ -4,7 +4,12 @@ using Services.ViewModels.CustomerModels;
 using Services.ViewModels.DriverModels;
 using Services.ViewModels.LocationModels;
 using Services.ViewModels.LocationType;
+using Services.ViewModels.OrderModels;
 using Services.ViewModels.ProviderModels;
+using Services.ViewModels.RouteLocationModels;
+using Services.ViewModels.RouteModels;
+using Services.ViewModels.TripModels;
+using Services.ViewModels.TripModes;
 using Services.ViewModels.VehicleModels;
 
 namespace Repositories.Mappers
@@ -46,6 +51,31 @@ namespace Repositories.Mappers
 			CreateMap<Customer, CustomerViewModel>().ReverseMap();
 			CreateMap<Customer, CustomerUpdateModel>().ReverseMap();
 			#endregion
+
+			#region  RouteMapping
+			CreateMap<RouteCreateModel, Route>().ReverseMap();
+			CreateMap<RouteViewModel, Route>().ReverseMap();
+			CreateMap<RouteUpdateModel, Route>().ReverseMap();
+			#endregion
+			
+
+			#region  RouteLocationMapping
+			CreateMap<RouteLocationViewModel, RouteLocation>().ReverseMap();
+			CreateMap<RouteLocationCreateModel, RouteLocation>().ReverseMap();
+			CreateMap<RouteLocationUpdateModel, RouteLocationUpdateModel>().ReverseMap();
+			#endregion
+
+			#region  TripMapping
+			CreateMap<Trip, TripViewModel>().ReverseMap();
+			CreateMap<TripCreateModel, Trip>().ReverseMap();
+			CreateMap<TripUpdateModel, Trip>().ReverseMap();
+			#endregion
+
+			#region OrderMapping
+			CreateMap<OrderCreateModel, Order>().ReverseMap();
+			CreateMap<OrderViewModel, Order>().ReverseMap();
+			CreateMap<OrderUpdateModel, Order>().ReverseMap();
+			#endregion  
 		}
 	}
 }

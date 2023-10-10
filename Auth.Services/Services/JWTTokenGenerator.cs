@@ -22,10 +22,10 @@ namespace Auth.Services.Services
             var key = Encoding.ASCII.GetBytes(_jwtOptions.Secret);
             var claimsList = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Name, user.UserName!),
-                new Claim("PhoneNumber", user.PhoneNumber!)
+                new Claim(ClaimTypes.Email, user.Email!),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Name),
+                new Claim(ClaimTypes.HomePhone, user.PhoneNumber!)
 
             };
             claimsList.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));

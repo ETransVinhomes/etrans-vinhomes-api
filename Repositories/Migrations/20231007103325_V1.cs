@@ -18,10 +18,10 @@ namespace Repositories.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sex = table.Column<bool>(type: "bit", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sex = table.Column<bool>(type: "bit", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -165,6 +165,7 @@ namespace Repositories.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalDistance = table.Column<double>(type: "float", nullable: false),
                     ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -195,7 +196,7 @@ namespace Repositories.Migrations
                     TotalSeat = table.Column<int>(type: "int", nullable: false),
                     LicensePlate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DriverId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DriverId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -255,9 +256,11 @@ namespace Repositories.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Index = table.Column<int>(type: "int", nullable: false),
                     StartLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EndLocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RouteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Distance = table.Column<double>(type: "float", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ModificationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -299,6 +302,7 @@ namespace Repositories.Migrations
                     Distance = table.Column<double>(type: "float", nullable: false),
                     SeatRemain = table.Column<int>(type: "int", nullable: false),
                     Rating = table.Column<float>(type: "real", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
                     RouteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     VehicleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -366,8 +370,17 @@ namespace Repositories.Migrations
                 columns: new[] { "Id", "CreatedBy", "CreationDate", "DeleteBy", "DeletionDate", "IsDeleted", "ModificationBy", "ModificationDate", "Name" },
                 values: new object[,]
                 {
-                    { new Guid("1023a4ef-b23b-4d06-b8ed-a798fc94aed3"), null, new DateTime(2023, 9, 10, 23, 14, 23, 378, DateTimeKind.Local).AddTicks(7821), null, null, false, null, null, "Indoor" },
-                    { new Guid("5c10e2b1-55e3-4934-af96-70ca5d68da30"), null, new DateTime(2023, 9, 10, 23, 14, 23, 378, DateTimeKind.Local).AddTicks(7846), null, null, false, null, null, "Outdoor" }
+                    { new Guid("42a44f3c-2995-4d69-9bd3-71f30630f0f3"), null, new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4218), null, null, false, null, null, "Outdoor" },
+                    { new Guid("a03be947-c4b0-4905-87b1-0d649c09edb9"), null, new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4216), null, null, false, null, null, "Indoor" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Provider",
+                columns: new[] { "Id", "Address", "CreatedBy", "CreationDate", "DeleteBy", "DeletionDate", "IsDeleted", "ModificationBy", "ModificationDate", "Name", "PhoneNumber", "Status" },
+                values: new object[,]
+                {
+                    { new Guid("98b88a43-257c-40b3-a09e-2dc78a96b368"), "VietNam", null, new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4018), null, null, false, null, null, "VinETrans", "0778020298", "Active" },
+                    { new Guid("c2df8982-24e1-4d78-b0ba-b2e1c7801183"), "Norway", null, new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4037), null, null, false, null, null, "Phuong Trang ETrans", "0778020298", "Active" }
                 });
 
             migrationBuilder.CreateIndex(

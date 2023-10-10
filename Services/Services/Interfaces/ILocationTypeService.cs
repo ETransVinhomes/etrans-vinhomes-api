@@ -7,6 +7,7 @@ namespace Services.Services.Interfaces
 		Task<IEnumerable<LocationTypeViewModel>> GetAllLocationTypeAsync();
 		Task<LocationTypeViewModel> GetLocationTypeByIdAsync(Guid id);
 		Task<LocationTypeViewModel> CreateLocationTypeAsync(LocationTypeCreateModel model);
+	
 		Task<LocationTypeViewModel> UpdateLocationTypeAsync(LocationTypeViewModel model);
 		Task<bool> DeleteLocationTypeAsync(Guid id);
 

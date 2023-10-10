@@ -12,8 +12,8 @@ using Repositories;
 namespace Repositories.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230925010520_v2")]
-    partial class v2
+    [Migration("20231007103325_V1")]
+    partial class V1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace Repositories.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("DeleteBy")
@@ -51,14 +51,12 @@ namespace Repositories.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("ModificationBy")
@@ -71,7 +69,7 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Sex")
+                    b.Property<bool?>("Sex")
                         .HasColumnType("bit");
 
                     b.Property<string>("Status")
@@ -215,15 +213,15 @@ namespace Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a2b722e3-a34e-4d48-8cd4-d66179ddef6c"),
-                            CreationDate = new DateTime(2023, 9, 25, 8, 5, 20, 454, DateTimeKind.Local).AddTicks(3685),
+                            Id = new Guid("a03be947-c4b0-4905-87b1-0d649c09edb9"),
+                            CreationDate = new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4216),
                             IsDeleted = false,
                             Name = "Indoor"
                         },
                         new
                         {
-                            Id = new Guid("c2fcc57a-3180-46e7-bfc9-509dc71e8594"),
-                            CreationDate = new DateTime(2023, 9, 25, 8, 5, 20, 454, DateTimeKind.Local).AddTicks(3700),
+                            Id = new Guid("42a44f3c-2995-4d69-9bd3-71f30630f0f3"),
+                            CreationDate = new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4218),
                             IsDeleted = false,
                             Name = "Outdoor"
                         });
@@ -367,6 +365,28 @@ namespace Repositories.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Provider");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("98b88a43-257c-40b3-a09e-2dc78a96b368"),
+                            Address = "VietNam",
+                            CreationDate = new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4018),
+                            IsDeleted = false,
+                            Name = "VinETrans",
+                            PhoneNumber = "0778020298",
+                            Status = "Active"
+                        },
+                        new
+                        {
+                            Id = new Guid("c2df8982-24e1-4d78-b0ba-b2e1c7801183"),
+                            Address = "Norway",
+                            CreationDate = new DateTime(2023, 10, 7, 17, 33, 25, 719, DateTimeKind.Local).AddTicks(4037),
+                            IsDeleted = false,
+                            Name = "Phuong Trang ETrans",
+                            PhoneNumber = "0778020298",
+                            Status = "Active"
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Route", b =>
@@ -411,6 +431,9 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("TotalDistance")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProviderId");
@@ -436,8 +459,14 @@ namespace Repositories.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("Distance")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("EndLocationId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -556,6 +585,9 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
@@ -603,7 +635,7 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("DriverId")
+                    b.Property<Guid?>("DriverId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -623,8 +655,7 @@ namespace Repositories.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ProviderId")
-                        .IsRequired()
+                    b.Property<Guid>("ProviderId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Status")
