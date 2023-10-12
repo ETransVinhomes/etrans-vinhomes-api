@@ -10,7 +10,7 @@ namespace Services.Services.Interfaces
 	public interface IDriverService
 	{
 		Task<IEnumerable<DriverViewModel>> GetAllDrivers(string search = "");
-		Task<DriverViewModel> GetDriverById(Guid id);
+		Task<DriverViewModel> GetDriverById();
 		Task<bool> DeleteDriver(Guid id);
 		Task<DriverViewModel> UpdateDriver(DriverUpdateModel model);
 		Task<DriverViewModel> CreateDriver(DriverCreateModel model);

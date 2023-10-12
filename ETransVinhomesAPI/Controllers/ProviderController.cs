@@ -34,16 +34,12 @@ namespace ETransVinhomesAPI.Controllers
 			else throw new Exception("List is emptied! Please add provider First!");
 		}
 
-		/// <summary>
-		/// Get provider by Id
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		/// <exception cref="Exception"></exception>
-		[HttpGet("{id}")]
-		public async Task<IActionResult> GetById(Guid id)
+		
+		[Route("details")]
+		[HttpGet]
+		public async Task<IActionResult> GetById()
 		{
-			var result = await _providerService.GetByIdAsync(id);
+			var result = await _providerService.GetByIdAsync();
 			if (result is not null)
 			{
 				

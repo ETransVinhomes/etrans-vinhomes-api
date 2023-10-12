@@ -9,6 +9,7 @@ namespace Services.ViewModels.ProviderModels
 		public string Address { get; set; } = default!;
 		public string PhoneNumber { get; set; } = default!;
 		public string Status { get; set; } = default!;
+		public Guid ExternalId {get; set;} = default!;
 		public ICollection<Vehicle> Vehicles { get; set; } = default!;
 
 	}

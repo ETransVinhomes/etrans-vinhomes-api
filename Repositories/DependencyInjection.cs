@@ -4,6 +4,7 @@ using Repositories.Mappers;
 using Repositories.Repositories;
 using Services;
 using Services.AsyncDataServices;
+using Services.AsyncDataServices.Interfaces;
 using Services.EventProcessing;
 using Services.EventProcessing.Interfaces;
 using Services.Repositories;
@@ -55,6 +56,7 @@ namespace Repositories
             #region DI For AsyncCommunication
             services.AddSingleton<IEventProcessor, EventProcessor>();
             services.AddHostedService<MessageBusSuscriber>();
+            services.AddScoped<IMessageBusClient, MessageBusClient>();
             #endregion
             return services;
         }

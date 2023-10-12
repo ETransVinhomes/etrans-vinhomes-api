@@ -6,7 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Enums;
+using Services.AsyncDataServices.Interfaces;
 using Services.Services.Interfaces;
+using Services.ViewModels.AsyncDataModels;
 using Services.ViewModels.CustomerModels;
 
 namespace Services.Services
@@ -14,14 +17,16 @@ namespace Services.Services
 	public class CustomerService : ICustomerService
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMessageBusClient _messageBusClient;
 		private readonly IMapper _mapper;
 		private readonly IClaimsService _claimsService;
 
-		public CustomerService(IClaimsService claimsService, IUnitOfWork unitOfWork, IMapper mapper)
+		public CustomerService(IClaimsService claimsService, IUnitOfWork unitOfWork, IMapper mapper, IMessageBusClient messageBusClient)
 		{
 			_claimsService = claimsService;
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_messageBusClient = messageBusClient;
 		}
         public async Task<CustomerViewModel> CreateCustomer(CustomerCreateModel model)
         {
@@ -69,8 +74,19 @@ namespace Services.Services
 			{
 				_mapper.Map(model, customer);
 				_unitOfWork.CustomerRepository.Update(customer);
-				return await _unitOfWork.SaveChangesAsync() ? _mapper.Map <CustomerViewModel>(await _unitOfWork.CustomerRepository.GetByIdAsync(customer.Id))
-				: throw new Exception("Save changes failed!");
+				if(await _unitOfWork.SaveChangesAsync())
+				{
+					_messageBusClient.PublishUpdateAccount(new UserPublishedModel 
+					{
+						Event = nameof(EventType.UserModified),
+						Email = customer.Email,
+						Name = customer.Name,
+						Id = customer.ExternalId,
+						PhoneNumber = customer.PhoneNumber,
+						Role = nameof(RoleEnum.CUSTOMER)
+					});
+					return _mapper.Map<CustomerViewModel>(customer);
+				} else throw new Exception($"--> Error: Save Changes Failed!");
 			} throw new Exception($"Not found Customer with Id: {model.Id}");
         }
     }

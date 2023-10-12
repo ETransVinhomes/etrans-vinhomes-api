@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
+using Services.AsyncDataServices.Interfaces;
 using Services.Services.Interfaces;
+using Services.ViewModels.AsyncDataModels;
 using Services.ViewModels.ProviderModels;
 
 namespace Services.Services
@@ -9,11 +11,15 @@ namespace Services.Services
 	public class ProviderService : IProviderService
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IClaimsService _claimsService;
 		private readonly IMapper _mapper;
-		public ProviderService(IUnitOfWork unitOfWork, IMapper mapper)
+		private readonly IMessageBusClient _messsageBusClient;
+		public ProviderService(IUnitOfWork unitOfWork, IMapper mapper, IClaimsService claimsService, IMessageBusClient messageBusClient)
 		{
 			_mapper = mapper;
+			_claimsService = claimsService;
 			_unitOfWork = unitOfWork;
+			_messsageBusClient = messageBusClient;
 		}
 		public async Task<ProviderViewModel> CreateAsync(ProviderCreateModel model)
 		{
@@ -49,15 +55,13 @@ namespace Services.Services
 			: _mapper.Map<IEnumerable<ProviderViewModel>>(await _unitOfWork.ProviderRepository.FindListByField(x => x.Name.ToLower().Contains(search.ToLower()))));
 
        
-        public async Task<ProviderViewModel> GetByIdAsync(Guid id)
+        public async Task<ProviderViewModel> GetByIdAsync()
 		{
-			var provider = await _unitOfWork.ProviderRepository.GetByIdAsync(id, x => x.Routes, x => x.Vehicles);
-			return provider is not null
-				? _mapper.Map<ProviderViewModel>(provider)
-				: throw new Exception("Not found!");
-
-
-
+			var externalId = _claimsService.GetCurrentUser == Guid.Empty ? throw new Exception($"--> Error: ExternalId: {_claimsService.GetCurrentUser}") 
+				: _claimsService.GetCurrentUser;
+			System.Console.WriteLine($"--> Info: ExternalId: {externalId}");
+			var provider = await _unitOfWork.ProviderRepository.FindByField(x => x.ExternalId == externalId) ?? throw new Exception($"--> Error: Not found Provider with LoginId: {_claimsService.GetCurrentUser}"); 
+			return _mapper.Map<ProviderViewModel>(provider);
 		}
 
 		public async Task<bool> UpdateAsync(ProviderUpdateModel model)
@@ -67,8 +71,20 @@ namespace Services.Services
 			{
 				_mapper.Map(model, provider);
 				_unitOfWork.ProviderRepository.Update(provider);
-				return await _unitOfWork.SaveChangesAsync()
-					? true : throw new Exception("Save changes failed!");
+				if(await _unitOfWork.SaveChangesAsync())
+				{
+					_messsageBusClient.PublishUpdateAccount(new UserPublishedModel
+					{
+						Id = provider.ExternalId,
+						PhoneNumber = provider.PhoneNumber,
+						Role = nameof(RoleEnum.PROVIDER),
+						Event = nameof(EventType.UserModified),
+						Name = provider.Name
+						
+					});
+					return true;
+				}else
+				throw new Exception("Save changes failed!");
 			}
 			else
 			{

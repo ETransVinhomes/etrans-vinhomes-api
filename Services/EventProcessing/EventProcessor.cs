@@ -28,6 +28,9 @@ namespace Services.EventProcessing
                     AddEntity(message);
 
                     break;
+                case EventType.UserModified:
+                    System.Console.WriteLine($"--> info: User Modified At Core Service! Do Nothing");
+                    break;
                 default:
                     break;
             }
@@ -93,8 +96,11 @@ namespace Services.EventProcessing
             switch (eventType.Event)
             {
                 case nameof(EventType.UserCreation):
-                    System.Console.WriteLine("--> Platform Published Event Detected");
+                    System.Console.WriteLine("--> User Creation Event Detected");
                     return EventType.UserCreation;
+                case nameof(EventType.UserModified):
+                    System.Console.WriteLine("--> UserModified Event Detected");
+                    return EventType.UserModified;
                 default:
                     System.Console.WriteLine("--> Undetermined Event Detected");
                     return EventType.Undefined;

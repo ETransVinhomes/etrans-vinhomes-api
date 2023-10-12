@@ -8,14 +8,7 @@ namespace ETransVinhomesAPI.Services
     {
         public ClaimsService(IHttpContextAccessor httpContextAccessor)
         {
-            var claims = httpContextAccessor.HttpContext?.User?.Claims;
-            if (claims != null)
-            {
-                foreach (var claim in claims)
-                {
-                    Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-                }
-            }
+            
             // todo implementation to get the current userId
             var Id = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
             GetCurrentUser = string.IsNullOrEmpty(Id) ? Guid.Empty : Guid.Parse(Id);

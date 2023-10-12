@@ -47,8 +47,9 @@ namespace ETransVinhomesAPI
 				});
 			});
 			services.AddHealthChecks();
+		
 			services.AddHttpContextAccessor();
-			services.AddSingleton<IClaimsService, ClaimsService>();
+			services.AddScoped<IClaimsService, ClaimsService>();
 			return services;
 		}
 

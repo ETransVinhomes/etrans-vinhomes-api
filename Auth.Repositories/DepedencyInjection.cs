@@ -3,6 +3,8 @@ using Auth.Repositories.Mappers;
 using Auth.Repositories.Repositories;
 using Auth.Services.AsyncDataServices;
 using Auth.Services.AsyncDataServices.Interfaces;
+using Auth.Services.EventProcessing;
+using Auth.Services.EventProcessing.Interface;
 using Auth.Services.Repositories;
 using Auth.Services.Services;
 using Auth.Services.Services.Interfaces;
@@ -21,6 +23,8 @@ namespace Auth.Repositories
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJWTTokenGenerator, JWTTokenGenerator>();
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
+            services.AddSingleton<IEventProcessor, EventProcessor>();
+            services.AddHostedService<MessageBusSuscriber>();
             return services;
         }
     }

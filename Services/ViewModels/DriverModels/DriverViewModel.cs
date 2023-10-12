@@ -7,4 +7,5 @@ public class DriverViewModel
     public DateTime DateOfBirth { get; set; } = default!;
     public float Rating { get; set; } = default!;
     public string Status { get; set; } = default!;
+    public Guid ExternalId { get; set; } = default!;
 }
