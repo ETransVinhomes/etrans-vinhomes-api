@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Repositories.Mappers;
 using Repositories.Repositories;
 using Services;
+using Services.AsyncDataServices;
+using Services.EventProcessing;
+using Services.EventProcessing.Interfaces;
 using Services.Repositories;
 using Services.Services;
 using Services.Services.Interfaces;
@@ -44,12 +47,14 @@ namespace Repositories
                 .AddScoped<IRouteService, RouteService>()
                 .AddScoped<IRouteLocationService, RouteLocationService>()
                 .AddScoped<IOrderService, OrderService>()
-                .AddScoped<ITripService, TripService>();
+                .AddScoped<ITripService, TripService>()
+                .AddScoped<IPaymentService, PaymentService>()
+                .AddScoped<ITicketService, TicketService>();
             #endregion
 
             #region DI For AsyncCommunication
-            //services.AddSingleton<IEventProcessor, EventProcessor>();
-            //services.AddHostedService<MessageBusSuscriber>();
+            services.AddSingleton<IEventProcessor, EventProcessor>();
+            services.AddHostedService<MessageBusSuscriber>();
             #endregion
             return services;
         }

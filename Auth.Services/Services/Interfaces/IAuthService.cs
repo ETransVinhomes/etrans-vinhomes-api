@@ -12,6 +12,7 @@ namespace Auth.Services.Services.Interfaces
         
         Task<bool> RegisterAsync(RegisterDTO registerDTO);
         Task<UserViewModel> GetUserByIdAsync(Guid id);
+        Task<IEnumerable<UserViewModel>> GetAllAsync();
 
 
     }

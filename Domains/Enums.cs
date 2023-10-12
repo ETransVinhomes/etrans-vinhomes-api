@@ -40,8 +40,8 @@
 
     public enum RoleEnum
     {
-        Customer,
-        Provider,
-        Driver
+        CUSTOMER,
+        PROVIDER,
+        DRIVER
     }
 }

@@ -10,7 +10,7 @@ namespace Services.Services.Interfaces
 	public interface ICustomerService
 	{
 		Task<IEnumerable<CustomerViewModel>> GetCustomers(string search = "");
-		Task<CustomerViewModel> GetCustomerById(Guid id);
+		Task<CustomerViewModel> GetCustomerById();
 		Task<bool> DeleteCustomer(Guid id);
 		Task<CustomerViewModel> CreateCustomer(CustomerCreateModel model);
 		Task<CustomerViewModel> UpdateCustomer(CustomerUpdateModel model);

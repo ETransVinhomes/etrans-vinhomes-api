@@ -1,3 +1,5 @@
+using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interfaces;
 using Services.ViewModels.CustomerModels;
@@ -21,17 +23,17 @@ public class CustomerController : BaseController
         return Ok(result.AsQueryable());
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id) 
+    [Route("details")]
+    [HttpGet]
+    public async Task<IActionResult> GetById() 
     {
-        var result = await _customerService.GetCustomerById(id);
-        if(result is not null) 
-        {
+        var result = await _customerService.GetCustomerById();
 
             return Ok(result);
-        } else throw new Exception($"Not found Customer with Id: {id}");
+        
     }
 
+    // Cancel
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CustomerCreateModel model) 
     {
@@ -45,6 +47,7 @@ public class CustomerController : BaseController
         }
     }
 
+    [Authorize(Roles = nameof(RoleEnum.CUSTOMER))]
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] CustomerUpdateModel model)
     {

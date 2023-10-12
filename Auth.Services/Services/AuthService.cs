@@ -7,6 +7,7 @@ using Auth.Services.ViewModels;
 using Auth.Services.ViewModels.AuthRequestDTO;
 using Auth.Services.ViewModels.AuthResponseDTO;
 using Auth.Services.ViewModels.PublishedAccountModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace Auth.Services.Services
@@ -18,11 +19,13 @@ namespace Auth.Services.Services
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IJWTTokenGenerator _jwtTokenGenerator;
         private readonly IMessageBusClient _messageBusClient;
+        private readonly IMapper _mapper;
         public AuthService(IAuthRepository authRepository, UserManager<AppUser> userManager
-            , RoleManager<AppRole> roleManager, IJWTTokenGenerator jwtTokenGenerator, IMessageBusClient messageBusClient)
+            , RoleManager<AppRole> roleManager, IJWTTokenGenerator jwtTokenGenerator, IMessageBusClient messageBusClient, IMapper mapper)
         {
             _authRepository = authRepository;
             _appUser = userManager;
+            _mapper = mapper;
             _roleManager = roleManager;
             _jwtTokenGenerator = jwtTokenGenerator;
             _messageBusClient = messageBusClient;
@@ -55,6 +58,9 @@ namespace Auth.Services.Services
             }
             else throw new Exception("User not found!");
         }
+
+        public async Task<IEnumerable<UserViewModel>> GetAllAsync()
+            => _mapper.Map<IEnumerable<UserViewModel>>(await _authRepository.GetAllAsync());
 
         public async Task<UserViewModel> GetUserByIdAsync(Guid id)
         {

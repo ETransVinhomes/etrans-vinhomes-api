@@ -12,5 +12,6 @@ namespace Auth.Services.Repositories
         Task<bool> DeleteUserAsync(AppUser user);
         Task<AppRole> GetRoleByNameAsync(string roleName);
         Task<AppRole> CreateRoleAsync(AppRole role);
+        Task<IEnumerable<AppUser>> GetAllAsync();
     }
 }

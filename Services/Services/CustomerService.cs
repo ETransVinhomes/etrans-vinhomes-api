@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -43,8 +44,15 @@ namespace Services.Services
 			} else throw new Exception($"Not found customer with Id: {id}");
         }
 
-        public async Task<CustomerViewModel> GetCustomerById(Guid id)
-        => _mapper.Map<CustomerViewModel>(await _unitOfWork.CustomerRepository.GetByIdAsync(id));
+        public async Task<CustomerViewModel> GetCustomerById()
+        {
+			var externalId = _claimsService.GetCurrentUser == Guid.Empty ? throw new Exception($"--> Error: Could not get UserId {_claimsService.GetCurrentUser}") : _claimsService.GetCurrentUser;
+			var user = await _unitOfWork.CustomerRepository.FindByField(x => x.ExternalId == externalId);
+			if(user is not null)
+			{
+				return _mapper.Map<CustomerViewModel>(user);
+			} else throw new Exception($"--> Error: Could not found Customer with ExternalId: {externalId}");
+		}
             
         
 

@@ -20,7 +20,7 @@ public class VehicleService : IVehicleService
         var vehicle = _mapper.Map<Vehicle>(createModel);
         // vehicle.ProviderId = _claimsService.GetCurrentUser;  Should do in this way
         var userId = _claimsService.GetCurrentUser;
-        //if (userId == Guid.Empty) throw new Exception("Can not get UserId");
+        if (userId == Guid.Empty) throw new Exception($"--> Error: Can not get User | UserLoginId: {_claimsService.GetCurrentUser}");
         var provider = await _unitOfWork.ProviderRepository.FindByField(x => x.ExternalId == userId);
         if (provider == null) throw new Exception($"This Provider is not active or not found");
 

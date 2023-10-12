@@ -16,7 +16,7 @@ namespace Domain.Entities
         public Guid VehicleId { get; set; } = default!;
         public Vehicle Vehicle { get; set; } = default!;
         public string Status { get; set; } = nameof(TripStatusEnum.Active);
-        //public DateTime StartedDate { get; set; } = default!;
+        public DateTime StartedDate { get; set; } = default!;
         public ICollection<Ticket> Tickets { get; set; } = default!;
     }
 }

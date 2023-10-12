@@ -32,7 +32,7 @@ namespace Services.EventProcessing
                     break;
             }
         }
-        private void AddEntity(string message)
+        private async void AddEntity(string message)
         {
             using (var scope = _scopeFactory.CreateScope())
             {
@@ -44,7 +44,8 @@ namespace Services.EventProcessing
                     switch (userModel.Role)
                     {
                         case "PROVIDER":
-                            unitOfWork.ProviderRepository.AddAsync(new Domain.Entities.Provider
+                        System.Console.WriteLine($"--> Info: Received Message Create Provider");
+                            await unitOfWork.ProviderRepository.AddAsync(new Domain.Entities.Provider
                             {
                                 ExternalId = userModel.Id,
                                 Name = userModel.Name,
@@ -52,7 +53,8 @@ namespace Services.EventProcessing
                             });
                             break;
                         case "CUSTOMER":
-                            unitOfWork.CustomerRepository.AddAsync(new Domain.Entities.Customer
+                        System.Console.WriteLine($"--> Info: Received Message Create Customer");
+                            await unitOfWork.CustomerRepository.AddAsync(new Domain.Entities.Customer
                             {
                                 ExternalId = userModel.Id,
                                 Email = userModel.Email,
@@ -61,19 +63,22 @@ namespace Services.EventProcessing
                             });
                             break;
                         case "DRIVER":
-                            unitOfWork.DriverRepository.AddAsync(new Domain.Entities.Driver
+                        System.Console.WriteLine($"--> Info: Received Message Create Driver");
+                            await unitOfWork.DriverRepository.AddAsync(new Domain.Entities.Driver
                             {
+                                
                                 ExternalId = userModel.Id,
                                 PhoneNumber = userModel.PhoneNumber,
                                 Name = userModel.Name
                             });
+                            
                             break;
                         default:
                             throw new Exception($"Create User With Role is not supported");
 
                     }
 
-                    unitOfWork.SaveChangesAsync();
+                    await unitOfWork.SaveChangesAsync();
                 }
                 catch (Exception ex)
                 {

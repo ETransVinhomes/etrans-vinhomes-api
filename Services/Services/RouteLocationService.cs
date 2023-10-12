@@ -74,7 +74,7 @@ public class RouteLocationService : IRouteLocationService
             return await _unitOfWork.SaveChangesAsync();
         }
         if (routeLocation.IsHead)
-        {
+    {
             routeLocation.NextRouteLocation!.IsHead = true;
             _unitOfWork.RouteLocationRepository.Update(routeLocation.NextRouteLocation);
         }

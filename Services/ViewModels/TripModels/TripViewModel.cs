@@ -13,6 +13,6 @@ public class TripViewModel
     public double Price { get; set; } = default!;
     public RouteViewModel Route { get; set; } = default!;
     public VehicleViewModel Vehicle { get; set; } = default!;
-    //public DateTime StartedDate { get; set; } = default!;
+    public DateTime StartedDate { get; set; } = default!;
     public string Status { get; set; } = default!;
 }

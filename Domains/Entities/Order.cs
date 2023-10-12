@@ -7,6 +7,7 @@ namespace Domain.Entities
     {
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public string Name { get; set; } = default!;
+        public double Total {get; set;} = default!;
         public string Status { get; set; } = nameof(TransactionStatusEnum.Created);
         public Guid CustomerId { get; set; } = default!;
         public Customer Customer { get; set; } = default!;

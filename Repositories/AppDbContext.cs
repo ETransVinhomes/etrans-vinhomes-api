@@ -54,6 +54,15 @@ namespace Repositories
 
                 }
             );
+            modelBuilder.Entity<Customer>().HasData
+            (
+                new Customer
+                {
+                    Email = "customer@gmail.com",
+                    Name = "CustomerName",
+                    PhoneNumber = "09XXXXXXXX"
+                }
+            );
             modelBuilder.Entity<LocationType>().HasData(new LocationType
             {
                 Name = "Indoor"

@@ -43,7 +43,10 @@ namespace Auth.Repositories.Repositories
         }
 
         public Task<AppUser> FindUserAsync(Expression<Func<AppUser, bool>> expression) => _dbContext
-            .AppUser.FirstAsync<AppUser>(expression);
+            .AppUser.FirstOrDefaultAsync<AppUser>(expression)!;
+
+        public async Task<IEnumerable<AppUser>> GetAllAsync()
+            => await _dbContext.AppUser.ToListAsync();
 
         public Task<AppRole> GetRoleByNameAsync(string roleName) => _dbContext.Roles.FirstAsync(x => x.Name!.ToUpper() == roleName.ToUpper());
 

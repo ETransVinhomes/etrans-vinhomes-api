@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories;
 
@@ -11,9 +12,11 @@ using Repositories;
 namespace Repositories.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231011035804_V4_11102023")]
+    partial class V4_11102023
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,19 +80,6 @@ namespace Repositories.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customer");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6907d9e3-bb83-4642-b28c-1fb18b4ce5e8"),
-                            CreationDate = new DateTime(2023, 10, 11, 15, 38, 31, 939, DateTimeKind.Local).AddTicks(1483),
-                            Email = "customer@gmail.com",
-                            ExternalId = new Guid("00000000-0000-0000-0000-000000000000"),
-                            IsDeleted = false,
-                            Name = "CustomerName",
-                            PhoneNumber = "09XXXXXXXX",
-                            Status = "Active"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Driver", b =>
@@ -227,15 +217,15 @@ namespace Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a9269944-bdb3-4627-be03-247799854b09"),
-                            CreationDate = new DateTime(2023, 10, 11, 15, 38, 31, 939, DateTimeKind.Local).AddTicks(1509),
+                            Id = new Guid("b43b68fa-dd9a-4f0a-bf8a-4a970af3863c"),
+                            CreationDate = new DateTime(2023, 10, 11, 10, 58, 4, 808, DateTimeKind.Local).AddTicks(9132),
                             IsDeleted = false,
                             Name = "Indoor"
                         },
                         new
                         {
-                            Id = new Guid("2eac0c96-0c83-40f7-9b60-3b8aa114b4e7"),
-                            CreationDate = new DateTime(2023, 10, 11, 15, 38, 31, 939, DateTimeKind.Local).AddTicks(1512),
+                            Id = new Guid("d29fbe67-b65d-4097-8f71-f32950cebf89"),
+                            CreationDate = new DateTime(2023, 10, 11, 10, 58, 4, 808, DateTimeKind.Local).AddTicks(9134),
                             IsDeleted = false,
                             Name = "Outdoor"
                         });
@@ -388,9 +378,9 @@ namespace Repositories.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1bd60da2-9c40-4d9a-80aa-dabbcbb0b5f2"),
+                            Id = new Guid("17d29532-9089-47e8-a8ae-6e3c40613f43"),
                             Address = "VietNam",
-                            CreationDate = new DateTime(2023, 10, 11, 15, 38, 31, 939, DateTimeKind.Local).AddTicks(1072),
+                            CreationDate = new DateTime(2023, 10, 11, 10, 58, 4, 808, DateTimeKind.Local).AddTicks(8905),
                             ExternalId = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = false,
                             Name = "VinETrans",
@@ -399,9 +389,9 @@ namespace Repositories.Migrations
                         },
                         new
                         {
-                            Id = new Guid("09fff4f2-4bbb-4b80-8bf9-b7e4fd3720ef"),
+                            Id = new Guid("a2a27fd8-8413-42f1-8745-e5a85bb4df65"),
                             Address = "Norway",
-                            CreationDate = new DateTime(2023, 10, 11, 15, 38, 31, 939, DateTimeKind.Local).AddTicks(1088),
+                            CreationDate = new DateTime(2023, 10, 11, 10, 58, 4, 808, DateTimeKind.Local).AddTicks(8921),
                             ExternalId = new Guid("00000000-0000-0000-0000-000000000000"),
                             IsDeleted = false,
                             Name = "Phuong Trang ETrans",
@@ -625,9 +615,6 @@ namespace Repositories.Migrations
 
                     b.Property<int>("SeatRemain")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("StartedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .IsRequired()

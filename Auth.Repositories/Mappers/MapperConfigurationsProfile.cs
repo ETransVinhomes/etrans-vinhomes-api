@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Auth.Domains.Entities;
+using Auth.Services.ViewModels;
+using AutoMapper;
 
 namespace Auth.Repositories.Mappers
 {
@@ -6,7 +8,7 @@ namespace Auth.Repositories.Mappers
 	{
 		public MapperConfigurationsProfile()
 		{
-
+		CreateMap<UserViewModel, AppUser>().ReverseMap();
 		}
 	}
 }
