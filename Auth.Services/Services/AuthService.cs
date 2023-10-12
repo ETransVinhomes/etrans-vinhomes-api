@@ -91,6 +91,7 @@ namespace Auth.Services.Services
                     {
                         Email = user.Email!,
                         Id = user.Id,
+                        Name = user.Name,
                         PhoneNumber = user.PhoneNumber!
                     },
                     Token = _jwtTokenGenerator.GenerateToken(user, await _appUser.GetRolesAsync(user))
