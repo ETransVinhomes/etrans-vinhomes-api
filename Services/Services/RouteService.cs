@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Domain.Entities;
 using Services.Services.Interfaces;
@@ -49,7 +50,7 @@ public class RouteService : IRouteService
     }
 
     public async Task<IEnumerable<RouteViewModel>> GetAllAsync()
-     => _mapper.Map<IEnumerable<RouteViewModel>>(await _unitOfWork.RouteRepository.GetAllAsync(x => x.Provider));
+     => _mapper.Map<IEnumerable<RouteViewModel>>(await _unitOfWork.RouteRepository.GetAllAsync(x => x.Provider, r => r.RouteLocations));
 
 
 

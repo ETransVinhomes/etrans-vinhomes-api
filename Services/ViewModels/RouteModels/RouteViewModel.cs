@@ -1,6 +1,7 @@
 using AutoMapper.Execution;
 using Domain.Enums;
 using Services.ViewModels.ProviderModels;
+using Services.ViewModels.RouteLocationModels;
 
 namespace Services.ViewModels.RouteModels;
 public class RouteViewModel
@@ -11,4 +12,5 @@ public class RouteViewModel
     public string Status { get; set; } = nameof(StatusEnum.Active);
     public Guid ProviderId { get; set; }
     public ProviderViewModel Provider { get; set; } = default!;
+    public ICollection<RouteLocationViewModel> RouteLocations { get; set; } = default!;
 }

@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
@@ -81,7 +82,7 @@ public class TripService : ITripService
     }
 
     public async Task<IEnumerable<TripViewModel>> GetAllAsync()
-        => _mapper.Map<IEnumerable<TripViewModel>>(await _unitOfWork.TripRepository.GetAllAsync());
+        => _mapper.Map<IEnumerable<TripViewModel>>(await _unitOfWork.TripRepository.GetAllAsync(x => x.Route, x => x.Vehicle));
 
 
 
