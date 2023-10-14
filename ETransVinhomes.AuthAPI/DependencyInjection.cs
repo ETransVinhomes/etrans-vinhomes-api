@@ -18,6 +18,8 @@ namespace ETransVinhomes.AuthAPI
 			builder.Services.AddIdentity<AppUser, AppRole>()
 				.AddDefaultTokenProviders()
 				.AddEntityFrameworkStores<AppDbContext>();
+
+
 			return builder;
 		}
 	}

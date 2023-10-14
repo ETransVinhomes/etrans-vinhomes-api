@@ -1,5 +1,7 @@
 using AutoMapper;
 using Domain.Entities;
+using Hangfire.States;
+using Microsoft.Extensions.Logging;
 using Services.Services.Interfaces;
 using Services.ViewModels.VehicleModels;
 
@@ -26,6 +28,20 @@ public class VehicleService : IVehicleService
 
 
         vehicle.ProviderId = provider.Id;
+        if (vehicle.DriverId is not null)
+        {
+            var driver = (await _unitOfWork.DriverRepository.GetAllAsync()).FirstOrDefault(x => x.Id == vehicle.DriverId);
+            if(driver is not null)
+            {
+                if(driver.Vehicles is not null)
+                {
+                    if(driver.Vehicles.Any())
+                    throw new Exception($"err: Driver with Id: {driver.Id} is take responsible for another Vehicle! Can not Create Vehicle!");
+                }
+            } else throw new Exception($"err: Driver is null! Can not Create Vehicle!");
+
+        }
+
         await _unitOfWork.VehicleRepository.AddAsync(vehicle);
         return await _unitOfWork.SaveChangesAsync() ?
             _mapper.Map<VehicleViewModel>(await _unitOfWork.DriverRepository.GetByIdAsync(vehicle.Id))

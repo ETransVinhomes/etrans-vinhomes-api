@@ -1,5 +1,6 @@
 ﻿using ETransVinhomesAPI.Middlewares;
 using ETransVinhomesAPI.Services;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -47,9 +48,15 @@ namespace ETransVinhomesAPI
 				});
 			});
 			services.AddHealthChecks();
-		
+
 			services.AddHttpContextAccessor();
 			services.AddScoped<IClaimsService, ClaimsService>();
+			services.AddHangfire(config => config
+			.UseSimpleAssemblyNameTypeSerializer()
+			.UseRecommendedSerializerSettings()
+			.UseInMemoryStorage());
+
+			services.AddHangfireServer();
 			return services;
 		}
 

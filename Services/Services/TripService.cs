@@ -15,6 +15,21 @@ public class TripService : ITripService
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
+
+    public async Task CheckTripStarted()
+    {
+        (await _unitOfWork.TripRepository.GetAllAsync()).ForEach(x => 
+        {
+            if(DateTime.Now >= x.StartedDate)
+            {
+                x.Status = nameof(TransportationStatusEnum.OnGoing);
+                _unitOfWork.TripRepository.Update(x);
+            }
+            
+        });
+        await _unitOfWork.SaveChangesAsync();
+    }
+
     public async Task<TripViewModel> CreateAsync(TripCreateModel model)
     {
         if (string.IsNullOrEmpty(model.Name))

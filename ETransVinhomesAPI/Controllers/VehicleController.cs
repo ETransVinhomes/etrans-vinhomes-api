@@ -48,11 +48,7 @@ public class VehicleController : BaseController
     public async Task<IActionResult> Create([FromBody]VehicleCreateModel model) 
     {
         var result = await _vehicleService.CreateVehicle(model);
-        if(result is not null)
-        {
-            _response.Result = result;
-            return StatusCode(StatusCodes.Status201Created, _response);
-        } throw new Exception("Create Failed!");
+        return StatusCode(StatusCodes.Status201Created);
     }
 
     [HttpPut]
@@ -62,7 +58,7 @@ public class VehicleController : BaseController
         if(result is not null)
         {
             _response.Result = result;
-            return StatusCode(StatusCodes.Status204NoContent, _response);
+           return NoContent();
         } else {
             throw new Exception("Update Failed!");
         }

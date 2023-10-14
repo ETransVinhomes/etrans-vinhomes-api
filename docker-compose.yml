@@ -1,4 +1,7 @@
 version: '3.5'
+networks:
+  web:
+    external: true
 services:
   rabbitmq:
     image: rabbitmq:management
@@ -54,12 +57,5 @@ services:
     - CONNECTIONSTRINGS__DEFAULT=Server=sql-server;Database=ETransVinhomes.Auth;Trusted_Connection=False;User Id=sa;Password=z@123456!;MultipleActiveResultSets=true;TrustServerCertificate=true
     ports:
     - "4202:80"
-  ocelot-api-gateway:
-    container_name: ocelot-gateway
-    image: ${DOCKER_REGISTRY-}ocelot-api-gateway:v1
-    build: 
-      context: .
-      dockerfile: OcelotAPIGateway/Dockerfile
-    ports:
-     - "7061:80"
+
 
