@@ -51,9 +51,10 @@ public class VehicleController : BaseController
         return StatusCode(StatusCodes.Status201Created);
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update([FromBody]VehicleUpdateModel model)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody]VehicleUpdateModel model, [FromQuery] Guid id)
     {
+        model.Id = id;
         var result =  await _vehicleService.UpdateVehicle(model);
         if(result is not null)
         {

@@ -8,6 +8,6 @@ namespace Services.ViewModels.VehicleModels
 {
 	public class VehicleUpdateModel : VehicleCreateModel
 	{
-		public Guid Id { get; set; }
+		public Guid? Id { get; set; }
 	}
 }

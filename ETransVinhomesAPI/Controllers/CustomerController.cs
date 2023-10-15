@@ -48,9 +48,10 @@ public class CustomerController : BaseController
     }
 
     [Authorize(Roles = nameof(RoleEnum.CUSTOMER))]
-    [HttpPut]
-    public async Task<IActionResult> Update([FromBody] CustomerUpdateModel model)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody] CustomerUpdateModel model, [FromQuery] Guid id)
     {
+        model.Id = id;
         var result = await _customerService.UpdateCustomer(model);
         if(result is not null)
         {

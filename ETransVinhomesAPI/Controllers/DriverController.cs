@@ -49,9 +49,10 @@ public class DriverController : BaseController
         else throw new Exception("Created Driver Failed!");
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update([FromBody] DriverUpdateModel model)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update([FromBody] DriverUpdateModel model, [FromQuery] Guid id)
     {
+        model.Id = id;
         var result = await _driverService.UpdateDriver(model);
         if (result is not null)
         {

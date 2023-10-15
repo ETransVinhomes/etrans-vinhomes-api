@@ -76,14 +76,11 @@ namespace ETransVinhomesAPI.Controllers
 			}
 			else throw new Exception("Create failed!");
 		}
-		/// <summary>
-		/// Update specific provider
-		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
-		[HttpPut]
-		public async Task<IActionResult> Update([FromBody] ProviderUpdateModel model)
+		
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Update([FromBody] ProviderUpdateModel model, [FromQuery] Guid id)
 		{
+			model.Id = id;
 			var result = await _providerService.UpdateAsync(model);
 			if (result)
 			{
