@@ -50,7 +50,7 @@ public class DriverController : BaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update([FromBody] DriverUpdateModel model, [FromQuery] Guid id)
+    public async Task<IActionResult> Update([FromBody] DriverUpdateModel model, [FromRoute] Guid id)
     {
         model.Id = id;
         var result = await _driverService.UpdateDriver(model);

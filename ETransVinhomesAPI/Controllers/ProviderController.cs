@@ -78,7 +78,7 @@ namespace ETransVinhomesAPI.Controllers
 		}
 		
 		[HttpPut("{id}")]
-		public async Task<IActionResult> Update([FromBody] ProviderUpdateModel model, [FromQuery] Guid id)
+		public async Task<IActionResult> Update([FromBody] ProviderUpdateModel model, [FromRoute] Guid id)
 		{
 			model.Id = id;
 			var result = await _providerService.UpdateAsync(model);

@@ -52,7 +52,7 @@ public class VehicleController : BaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update([FromBody]VehicleUpdateModel model, [FromQuery] Guid id)
+    public async Task<IActionResult> Update([FromBody]VehicleUpdateModel model, [FromRoute] Guid id)
     {
         model.Id = id;
         var result =  await _vehicleService.UpdateVehicle(model);
