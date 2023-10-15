@@ -61,7 +61,7 @@ namespace Services.Services
 
         public async Task<DriverViewModel> UpdateDriver(DriverUpdateModel model)
         {
-            var driver = await _unitOfWork.DriverRepository.GetByIdAsync(model.Id);
+            var driver = await _unitOfWork.DriverRepository.GetByIdAsync(model.Id!.Value);
 			if(driver is not null) 
 			{
 				_mapper.Map(model, driver);

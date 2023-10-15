@@ -69,7 +69,7 @@ namespace Services.Services
 
         public async Task<CustomerViewModel> UpdateCustomer(CustomerUpdateModel model)
         {
-            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(model.Id);
+            var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(model.Id!.Value);
 			if(customer is not null) 
 			{
 				_mapper.Map(model, customer);

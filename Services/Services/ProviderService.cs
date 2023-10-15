@@ -66,7 +66,7 @@ namespace Services.Services
 
 		public async Task<bool> UpdateAsync(ProviderUpdateModel model)
 		{
-			var provider = await _unitOfWork.ProviderRepository.GetByIdAsync(model.Id);
+			var provider = await _unitOfWork.ProviderRepository.GetByIdAsync(model.Id!.Value);
 			if (provider is not null)
 			{
 				_mapper.Map(model, provider);

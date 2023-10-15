@@ -85,7 +85,7 @@ public class VehicleService : IVehicleService
 
     public async Task<VehicleViewModel> UpdateVehicle(VehicleUpdateModel updateModel)
     {
-        var vehicle = await _unitOfWork.VehicleRepository.GetByIdAsync(updateModel.Id);
+        var vehicle = await _unitOfWork.VehicleRepository.GetByIdAsync(updateModel.Id!.Value);
         if (vehicle is not null)
         {
             _mapper.Map(updateModel, vehicle);
