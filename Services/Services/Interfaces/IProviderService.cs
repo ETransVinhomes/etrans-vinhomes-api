@@ -6,6 +6,7 @@ namespace Services.Services.Interfaces
 	{
 		Task<IEnumerable<ProviderViewModel>> GetAllAsync(string search = "");
 		Task<ProviderViewModel> GetByIdAsync();
+		Task<ProviderViewModel> GetByIdAsync(Guid id);
 		Task<ProviderViewModel> CreateAsync(ProviderCreateModel model);
 		Task<bool> UpdateAsync(ProviderUpdateModel model);
 		Task<bool> DeleteAsync(Guid id);

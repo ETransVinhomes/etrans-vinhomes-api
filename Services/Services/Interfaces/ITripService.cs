@@ -10,4 +10,5 @@ public interface ITripService
     Task<TripViewModel> UpdateAsync(TripUpdateModel model);
     Task<bool> DeleteAsync(Guid id); 
     Task CheckTripStarted();
+    Task<bool> FinishTrip(Guid id);
 }

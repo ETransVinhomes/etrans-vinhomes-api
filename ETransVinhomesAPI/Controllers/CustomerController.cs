@@ -27,10 +27,16 @@ public class CustomerController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetById() 
     {
-        var result = await _customerService.GetCustomerById();
+        var result = await _customerService.GetCustomerByIdAsync();
 
             return Ok(result);
         
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    {
+        return Ok(await _customerService.GetCustomerByIdAsync(id));
     }
 
     // Cancel

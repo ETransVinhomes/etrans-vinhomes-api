@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
+using Microsoft.Extensions.Logging;
 using Services.Services.Interfaces;
 using Services.ViewModels.TripModels;
 using Services.ViewModels.TripModes;
@@ -11,10 +12,14 @@ public class TripService : ITripService
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
-    public TripService(IMapper mapper, IUnitOfWork unitOfWork)
+    private readonly IClaimsService _claimsService;
+    private readonly ILogger<TripService> _logger;
+    public TripService(IMapper mapper, IUnitOfWork unitOfWork, IClaimsService claimsService, ILogger<TripService> logger)
     {
         _unitOfWork = unitOfWork;
+        _logger = logger;
         _mapper = mapper;
+        _claimsService = claimsService;
     }
 
     public async Task CheckTripStarted()
@@ -77,6 +82,24 @@ public class TripService : ITripService
         // Update Vehicle Back
         trip.Vehicle.Status = nameof(TransportationStatusEnum.Active);
 
+        _unitOfWork.VehicleRepository.Update(trip.Vehicle);
+        return await _unitOfWork.SaveChangesAsync();
+    }
+
+    public async Task<bool> FinishTrip(Guid id)
+    {
+        var driverId = _claimsService.GetCurrentUser == Guid.Empty ? throw new Exception($"--> err: Current user is null")
+            : _claimsService.GetCurrentUser;
+
+        var trip = await _unitOfWork.TripRepository.GetByIdAsync(id, l => l.Vehicle) ?? throw new Exception($"--> err: Not found trip with Id: {id}");
+        trip.Status = nameof(TripStatusEnum.Finished);
+        trip.Vehicle.Status = nameof(TransportationStatusEnum.Active);
+        var driver = await _unitOfWork.DriverRepository.GetByIdAsync(trip.Vehicle.DriverId!.Value) 
+        ?? throw new Exception($"--> err: Not found Driver with Id: {trip.Vehicle.DriverId}"); 
+
+        driver.Status = nameof(TransportationStatusEnum.Active);
+        _unitOfWork.TripRepository.Update(trip);
+        _unitOfWork.DriverRepository.Update(driver);
         _unitOfWork.VehicleRepository.Update(trip.Vehicle);
         return await _unitOfWork.SaveChangesAsync();
     }

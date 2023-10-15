@@ -63,7 +63,12 @@ namespace Services.Services
 			var provider = await _unitOfWork.ProviderRepository.FindByField(x => x.ExternalId == externalId) ?? throw new Exception($"--> Error: Not found Provider with LoginId: {_claimsService.GetCurrentUser}"); 
 			return _mapper.Map<ProviderViewModel>(provider);
 		}
-
+		 public async Task<ProviderViewModel> GetByIdAsync(Guid id)
+		{
+			
+			var provider = await _unitOfWork.ProviderRepository.FindByField(x => x.Id == id) ?? throw new Exception($"--> Error: Not found Provider with Id: {id}"); 
+			return _mapper.Map<ProviderViewModel>(provider);
+		}
 		public async Task<bool> UpdateAsync(ProviderUpdateModel model)
 		{
 			var provider = await _unitOfWork.ProviderRepository.GetByIdAsync(model.Id!.Value);

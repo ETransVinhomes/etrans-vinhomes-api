@@ -38,7 +38,7 @@ namespace Services.Services
                             ticket.Price = trip.Price * ticket.Quantity;
                             await _unitOfwork.TicketRepository.AddAsync(ticket);
                             sum += ticket.Price;
-                        }
+                        } 
                     }
                     else
                         throw new Exception($"Trip is not active or has started already!");

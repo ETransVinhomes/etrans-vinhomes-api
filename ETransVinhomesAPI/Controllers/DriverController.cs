@@ -31,10 +31,15 @@ public class DriverController : BaseController
     [HttpGet]
     public async Task<IActionResult> GetById()
     {
-        var result = await _driverService.GetDriverById();
+        var result = await _driverService.GetDriverByIdAsync();
 
         return Ok(result);
 
+    }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        return Ok(await _driverService.GetDriverByIdAsync(id));
     }
 
     [HttpPost]
