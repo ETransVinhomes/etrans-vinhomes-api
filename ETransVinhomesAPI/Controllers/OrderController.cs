@@ -50,7 +50,7 @@ public class OrderController : BaseController
         var result = await _orderService.UpdateAsync(model);
         if(result is not null)
         {
-            return StatusCode(StatusCodes.Status204NoContent, result);
+            return StatusCode(StatusCodes.Status204NoContent);
         } else throw new Exception($"Update Failed!");
     }
     

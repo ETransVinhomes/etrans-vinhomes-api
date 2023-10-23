@@ -1,3 +1,4 @@
+using Services.ViewModels.RatingModels;
 using Services.ViewModels.TripModels;
 using Services.ViewModels.TripModes;
 
@@ -11,4 +12,6 @@ public interface ITripService
     Task<bool> DeleteAsync(Guid id); 
     Task CheckTripStarted();
     Task<bool> FinishTrip(Guid id);
+    Task<bool> RatingAsync(Guid id, RatingCreateModel model);
+    
 }

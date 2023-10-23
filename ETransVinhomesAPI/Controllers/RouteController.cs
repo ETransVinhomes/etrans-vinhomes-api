@@ -54,7 +54,7 @@ public class RouteController : BaseController
     public async Task<IActionResult> Put([FromBody] RouteUpdateModel model)
     {
         var result = await _routeService.UpdateAsync(model);
-        return StatusCode(StatusCodes.Status204NoContent, result);
+        return StatusCode(StatusCodes.Status204NoContent);
         
     }
     [ProducesResponseType((int)HttpStatusCode.NoContent)]

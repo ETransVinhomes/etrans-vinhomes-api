@@ -1,9 +1,11 @@
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.Extensions.Logging;
 using Services.Services.Interfaces;
+using Services.ViewModels.RatingModels;
 using Services.ViewModels.TripModels;
 using Services.ViewModels.TripModes;
 
@@ -26,11 +28,18 @@ public class TripService : ITripService
     {
         (await _unitOfWork.TripRepository.GetAllAsync()).ForEach(x => 
         {
+            if(x.SeatRemain == 0)
+            {
+                x.Status = nameof(TripStatusEnum.Full);
+                _unitOfWork.TripRepository.Update(x);
+            }
             if(DateTime.Now >= x.StartedDate)
             {
                 x.Status = nameof(TransportationStatusEnum.OnGoing);
                 _unitOfWork.TripRepository.Update(x);
-            }
+            } 
+            
+
             
         });
         await _unitOfWork.SaveChangesAsync();
@@ -112,6 +121,18 @@ public class TripService : ITripService
     public async Task<TripViewModel> GetByIdAsync(Guid id)
     {
         return _mapper.Map<TripViewModel>(await _unitOfWork.TripRepository.GetByIdAsync(id, x => x.Route, x => x.Vehicle));
+    }
+
+    public async Task<bool> RatingAsync(Guid id, RatingCreateModel model)
+    {
+       var userId = _claimsService.GetCurrentUser == Guid.Empty ? throw new Exception($"Login user is null!") : _claimsService.GetCurrentUser;
+       var result = await _unitOfWork.TripRepository.RatingTripAsync(id, userId, model);
+       if(result)
+       {
+            return await _unitOfWork.SaveChangesAsync();
+       }
+       else return false;
+
     }
 
     public async Task<TripViewModel> UpdateAsync(TripUpdateModel model)

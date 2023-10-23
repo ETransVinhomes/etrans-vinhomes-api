@@ -61,7 +61,7 @@ public class DriverController : BaseController
         var result = await _driverService.UpdateDriver(model);
         if (result is not null)
         {
-            return StatusCode(StatusCodes.Status204NoContent, result);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
         else throw new Exception($"Updated Driver With Id: {model.Id} Failed!");
     }

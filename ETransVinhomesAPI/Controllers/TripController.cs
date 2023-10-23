@@ -3,6 +3,7 @@ using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Services.Interfaces;
+using Services.ViewModels.RatingModels;
 using Services.ViewModels.TripModels;
 using Services.ViewModels.TripModes;
 
@@ -69,6 +70,18 @@ public class TripController : BaseController
         await _tripService.FinishTrip(id);
         return NoContent();
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Rating([FromBody] RatingCreateModel model, Guid id)
+    {
+        if(await _tripService.RatingAsync(id, model))
+        {
+            return NoContent();
+        } else {
+            throw new Exception("Rating Failed!");
+        }
+    }
+
 
 
 }

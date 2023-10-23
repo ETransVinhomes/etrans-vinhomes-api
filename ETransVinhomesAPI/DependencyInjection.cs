@@ -1,5 +1,7 @@
 ﻿using ETransVinhomesAPI.Middlewares;
 using ETransVinhomesAPI.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +19,9 @@ namespace ETransVinhomesAPI
 			services.AddRouting(opt => opt.LowercaseUrls = true);
 			services.AddControllers();
 			services.AddTransient<GlobalExceptionMiddleware>();
-
+			services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+			services.AddFluentValidationAutoValidation();
+			services.AddFluentValidationClientsideAdapters();
 			services.AddEndpointsApiExplorer();
 			services.AddSwaggerGen(opt =>
 			{

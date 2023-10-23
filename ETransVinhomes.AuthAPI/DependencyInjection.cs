@@ -2,6 +2,8 @@
 using Auth.Repositories.Data;
 using Auth.Services.Commons;
 using ETransVinhomes.AuthAPI.Middlewares;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace ETransVinhomes.AuthAPI
@@ -14,6 +16,9 @@ namespace ETransVinhomes.AuthAPI
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
+			builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+			builder.Services.AddFluentValidationAutoValidation();
+			builder.Services.AddFluentValidationClientsideAdapters();
 			builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("ApiSettings:JwtOptions"));
 			builder.Services.AddIdentity<AppUser, AppRole>()
 				.AddDefaultTokenProviders()

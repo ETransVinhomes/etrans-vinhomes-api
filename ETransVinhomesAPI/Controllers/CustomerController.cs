@@ -62,7 +62,7 @@ public class CustomerController : BaseController
         if(result is not null)
         {
 
-            return StatusCode(StatusCodes.Status204NoContent, result);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
         throw new Exception("Update failed!");
     }

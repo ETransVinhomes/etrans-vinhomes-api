@@ -11,11 +11,9 @@ namespace ETransVinhomesAPI.Controllers;
 public class VehicleController : BaseController
 {
     private readonly IVehicleService _vehicleService;
-    private ResponseModel _response;
     public VehicleController(IVehicleService vehicleService)
     {
         _vehicleService = vehicleService;
-        _response = new();
     }
 /// <summary>
 /// Get All Vehicles
@@ -29,8 +27,7 @@ public class VehicleController : BaseController
     public async Task<IActionResult> GetVehicles([FromQuery] string search = "",[FromQuery] bool driver = false,[FromQuery] bool provider = false)
     {
         var result = await _vehicleService.GetVehicles(search, driver, provider);
-        _response.Result = result;
-        return Ok(_response);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
@@ -39,8 +36,7 @@ public class VehicleController : BaseController
         var result = await _vehicleService.GetVehicleById(id);
         if(result is not null)
         {
-            _response.Result = result;
-            return Ok(_response);
+            return Ok(result);
         } else throw new Exception($"Not found Vehicle with Id: {id}");
     }
 
@@ -58,7 +54,6 @@ public class VehicleController : BaseController
         var result =  await _vehicleService.UpdateVehicle(model);
         if(result is not null)
         {
-            _response.Result = result;
            return NoContent();
         } else {
             throw new Exception("Update Failed!");

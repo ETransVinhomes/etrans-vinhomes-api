@@ -9,8 +9,8 @@
     <PackageReference Include="GoogleMaps.LocationServices" Version="1.2.0.5"/>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0"/>
     <PackageReference Include="RabbitMQ.Client" Version="6.6.0-beta.0"/>
-		<PackageReference Include="Hangfire" Version="1.8.2" />
-		<PackageReference Include="Hangfire.InMemory" Version="0.4.1" />
+    <PackageReference Include="Hangfire" Version="1.8.2"/>
+    <PackageReference Include="Hangfire.InMemory" Version="0.4.1"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domains\Domains.csproj"/>
