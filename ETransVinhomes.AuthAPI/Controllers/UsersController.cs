@@ -18,7 +18,7 @@ public class UsersController : ControllerBase
     /// <param name="id">Guid</param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(Guid id) 
+    public async Task<IActionResult> GetById(Guid id)
     {
         return Ok(await _authService.GetUserByIdAsync(id));
     }
@@ -30,19 +30,26 @@ public class UsersController : ControllerBase
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost]
-		public async Task<IActionResult> Register([FromBody] RegisterDTO model)
-		{
-			var result = await _authService.RegisterAsync(model);
-			if (result)
-			{
-                if(string.IsNullOrEmpty(model.RoleName))
-				    await _authService.AssignRoleASync(model.Email, "CUSTOMER");
-                else await _authService.AssignRoleASync(model.Email, model.RoleName);
-				return StatusCode(StatusCodes.Status201Created);
-			}
-			else
-			{
-				return BadRequest("Failed");
-			}
-		}
+    public async Task<IActionResult> Register([FromBody] RegisterDTO model)
+    {
+        var result = await _authService.RegisterAsync(model);
+        if (result)
+        {
+            if (string.IsNullOrEmpty(model.RoleName))
+                await _authService.AssignRoleASync(model.Email, "CUSTOMER");
+            else await _authService.AssignRoleASync(model.Email, model.RoleName);
+            return StatusCode(StatusCodes.Status201Created);
+        }
+        else
+        {
+            return BadRequest("Failed");
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var result = await _authService.GetAllAsync();
+        return Ok(result);
+    }
 }

@@ -30,6 +30,7 @@ public class RouteLocationService : IRouteLocationService
     public async Task<IEnumerable<RouteLocationViewModel>> CreateRangeAsync(List<RouteLocationCreateModel> models, Guid routeId)
     {
         int index = 0;
+        var route = await _unitOfWork.RouteRepository.GetByIdAsync(routeId) ?? throw new Exception($"Not found Route with Id: {routeId}");
         var r_l_arr = _mapper.Map<List<RouteLocation>>(models).ToArray();
         r_l_arr.Select(c => { c.RouteId = routeId; return c; }).ToList();
         var existedRouteLoc = (await _unitOfWork.RouteLocationRepository.FindListByField(x => x.RouteId == routeId)).OrderBy(x => x.Index).ToList() ?? new List<RouteLocation>();
@@ -46,13 +47,15 @@ public class RouteLocationService : IRouteLocationService
 
         for (int i = index; i < r_l_arr.Count(); i++)
         {
+            
+            if(string.IsNullOrEmpty(r_l_arr[i].Name)) r_l_arr[i].Name = $"{route.Name} {i}";
             if (i != r_l_arr.Count() - 1)
                 r_l_arr[i].NextRouteLocationId = r_l_arr[i + 1].Id;
             r_l_arr[i].RouteId = routeId;
-
+            
             r_l_arr[i].Index = i;
         }
-        var route = await _unitOfWork.RouteRepository.GetByIdAsync(routeId);
+        
         route!.Size = r_l_arr.Count() + 1;
         _unitOfWork.RouteRepository.Update(route);
         await _unitOfWork.RouteLocationRepository.AddRangeAsync(r_l_arr.ToList());

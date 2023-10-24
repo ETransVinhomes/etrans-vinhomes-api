@@ -4,6 +4,5 @@
     {
         public UserDTO User { get; set; } = default!;
         public string Token { get; set; } = default!;
-
     }
 }
