@@ -52,4 +52,11 @@ public class UsersController : ControllerBase
         var result = await _authService.GetAllAsync();
         return Ok(result);
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await _authService.DeleteUserAsync(id);
+        return NoContent();
+    }
 }

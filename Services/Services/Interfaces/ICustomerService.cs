@@ -14,6 +14,6 @@ namespace Services.Services.Interfaces
 		Task<CustomerViewModel> GetCustomerByIdAsync(Guid id);
 		Task<bool> DeleteCustomer(Guid id);
 		Task<CustomerViewModel> CreateCustomer(CustomerCreateModel model);
-		Task<CustomerViewModel> UpdateCustomer(CustomerUpdateModel model);
+		Task<CustomerViewModel> UpdateCustomer(CustomerUpdateModel model, Guid customerId);
 	}
 }

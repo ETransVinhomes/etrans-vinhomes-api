@@ -59,6 +59,30 @@ namespace Auth.Services.Services
             else throw new Exception("User not found!");
         }
 
+        public async Task<bool> DeleteUserAsync(Guid id)
+        {
+            var user = await _authRepository.GetUserByIdAsync(id);
+            if (user.Role == "ADMIN")
+            {
+                throw new Exception($"Error: User with Id: {id} is Admin");
+
+            }
+            else
+            {
+                var result = await _appUser.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    _messageBusClient.DeleteNewAccount(new UserDeleteModel
+                    {
+                        Event = nameof(EventType.UserDelete),
+                        Id = user.Id,
+                        Role = user.Role!
+                    });
+                }
+                return true;
+            }
+        }
+
         public async Task<IEnumerable<UserViewModel>> GetAllAsync()
             => _mapper.Map<IEnumerable<UserViewModel>>(await _authRepository.GetAllAsync());
 
@@ -116,12 +140,12 @@ namespace Auth.Services.Services
                 PhoneNumber = registerDTO.PhoneNumber,
                 Email = registerDTO.Email,
                 NormalizedEmail = registerDTO.Email,
+                Role = registerDTO.RoleName,
                 UserName = "defaultUser" + Random.Shared.NextInt64()
-
             };
             try
             {
-                if(await _authRepository.FindUserAsync(x => x.Email == user.Email) != null) throw new Exception($"--> Error: Duplicate Email: {user.Email}");
+                if (await _authRepository.FindUserAsync(x => x.Email == user.Email) != null) throw new Exception($"--> Error: Duplicate Email: {user.Email}");
                 var result = await _appUser.CreateAsync(user, registerDTO.Password);
                 if (result.Succeeded)
                 {

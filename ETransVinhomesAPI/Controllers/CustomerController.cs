@@ -57,8 +57,7 @@ public class CustomerController : BaseController
     [HttpPut("{id}")]
     public async Task<IActionResult> Update([FromBody] CustomerUpdateModel model, [FromRoute]Guid id)
     {
-        model.Id = id;
-        var result = await _customerService.UpdateCustomer(model);
+        var result = await _customerService.UpdateCustomer(model, id);
         if(result is not null)
         {
 

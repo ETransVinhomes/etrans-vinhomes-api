@@ -38,31 +38,8 @@ namespace Repositories
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            modelBuilder.Entity<Provider>().HasData
-            (
-                new Provider
-                {
-                    Name = "VinETrans",
-                    PhoneNumber = "0778020298",
-                    Address = "VietNam"
-                },
-                new Provider
-                {
-                    Name = "Phuong Trang ETrans",
-                    PhoneNumber = "0778020298",
-                    Address = "Norway"
-
-                }
-            );
-            modelBuilder.Entity<Customer>().HasData
-            (
-                new Customer
-                {
-                    Email = "customer@gmail.com",
-                    Name = "CustomerName",
-                    PhoneNumber = "09XXXXXXXX"
-                }
-            );
+            
+          
             modelBuilder.Entity<LocationType>().HasData(new LocationType
             {
                 Name = "Indoor"

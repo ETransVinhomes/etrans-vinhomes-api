@@ -79,9 +79,9 @@ namespace Services.Services
 				: _mapper.Map<IEnumerable<CustomerViewModel>>(await _unitOfWork.CustomerRepository.FindListByField(x => x.Email.ToLower().Contains(search.ToLower())));
 		}
 
-		public async Task<CustomerViewModel> UpdateCustomer(CustomerUpdateModel model)
+		public async Task<CustomerViewModel> UpdateCustomer(CustomerUpdateModel model, Guid customerId)
 		{
-			var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(model.Id!.Value);
+			var customer = await _unitOfWork.CustomerRepository.GetByIdAsync(customerId);
 			if (customer is not null)
 			{
 				_mapper.Map(model, customer);
@@ -101,7 +101,7 @@ namespace Services.Services
 				}
 				else throw new Exception($"--> Error: Save Changes Failed!");
 			}
-			throw new Exception($"Not found Customer with Id: {model.Id}");
+			throw new Exception($"Not found Customer with Id: {customerId}");
 		}
 	}
 }

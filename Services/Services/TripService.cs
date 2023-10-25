@@ -37,10 +37,7 @@ public class TripService : ITripService
             {
                 x.Status = nameof(TransportationStatusEnum.OnGoing);
                 _unitOfWork.TripRepository.Update(x);
-            } 
-            
-
-            
+            }
         });
         await _unitOfWork.SaveChangesAsync();
     }
@@ -59,10 +56,16 @@ public class TripService : ITripService
         trip.Distance = route != null ? route.TotalDistance : throw new Exception($"Invalid RouteId : {model.RouteId}");
 
         // Find vehicle and check whether it is actived or not
-        var vehicle = await _unitOfWork.VehicleRepository.GetByIdAsync(model.VehicleId, x => x.Driver);
+        var vehicle = await _unitOfWork.VehicleRepository.GetByIdAsync(model.VehicleId, x => x.Driver, x => x.Trips);
         trip.SeatRemain = vehicle != null ? vehicle.TotalSeat - 1 : throw new Exception($"Invalid VehicleId: {model.VehicleId}! Can not create Trip");
 
-        if (vehicle.Status != nameof(TransportationStatusEnum.Active)) throw new Exception($"Vehicle is not active! Can not create trip");
+        if (vehicle.Status != nameof(TransportationStatusEnum.Active)) 
+        {
+            if(vehicle.Trips.OrderBy(x => x.StartedDate).First().StartedDate >= trip.StartedDate)
+            {
+                throw new Exception($"Vehicle is not available the time you choose to start your trip");
+            }
+        }
         if (vehicle.Driver == null) throw new Exception($"Trip Create On Vehicle not have any Driver: VehicleId: {vehicle.Id}");
         // Update Vehicle And Driver Status
         vehicle.Status = nameof(TransportationStatusEnum.OnGoing);

@@ -33,6 +33,9 @@ public class EventProcessor : IEventProcessor
             case EventType.UserCreation:
                 System.Console.WriteLine($"User Creation not catch On AuthService! Do Nothing");
                 break;
+            case EventType.UserDelete:
+                System.Console.WriteLine($"User Delete! No Action");
+                break;
             default:
                 break;
         }
@@ -71,6 +74,8 @@ public class EventProcessor : IEventProcessor
             case nameof(EventType.UserCreation):
                 System.Console.WriteLine("--> User Creation Event Detected");
                 return EventType.UserCreation;
+            case nameof(EventType.UserDelete): 
+                return EventType.UserDelete;
             default:
                 System.Console.WriteLine("--> Undetermined Event Detected");
                 return EventType.Undefined;

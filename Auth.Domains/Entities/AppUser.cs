@@ -6,6 +6,7 @@ namespace Auth.Domains.Entities
     {
         public Guid ExternalId { get; set; } = default!;
         public string Name { get; set; } = default!;
-        
+        public string? Role { get; set; } = default!;
+
     }
 }

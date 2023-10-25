@@ -34,7 +34,7 @@ public class MessageBusClient : IMessageBusClient
             System.Console.WriteLine($"--> Could not connect to the Message Bus: {ex.Message}");
             throw new Exception(ex.Message);
         }
-    
+
     }
     public void PublishNewAccount(UserPublishedModel userPublishedModel)
     {
@@ -50,12 +50,12 @@ public class MessageBusClient : IMessageBusClient
         }
     }
 
-     private void SendMessage(string message)
-        {
-            var body = Encoding.UTF8.GetBytes(message);
-            _channel.BasicPublish(exchange : "trigger", routingKey : "", basicProperties : null, body : body);
-            System.Console.WriteLine($"--> System send {message}");
-        }
+    private void SendMessage(string message)
+    {
+        var body = Encoding.UTF8.GetBytes(message);
+        _channel.BasicPublish(exchange: "trigger", routingKey: "", basicProperties: null, body: body);
+        System.Console.WriteLine($"--> System send {message}");
+    }
     public void Dispose()
     {
         System.Console.WriteLine("--> MessageBus Disposed");
@@ -69,5 +69,19 @@ public class MessageBusClient : IMessageBusClient
     private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
     {
         System.Console.WriteLine("--> RabbitMQ Connection Shutdown");
+    }
+
+    public void DeleteNewAccount(UserDeleteModel userDeleteModel)
+    {
+        var message = JsonSerializer.Serialize(userDeleteModel);
+        if (_connection.IsOpen)
+        {
+            System.Console.WriteLine("--> Sending Message To Rabbit Mq");
+            SendMessage(message);
+        }
+        else
+        {
+            System.Console.WriteLine("--> RabbitMQ Connection closed! Not sending!");
+        }
     }
 }

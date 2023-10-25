@@ -1,5 +1,8 @@
 namespace Services.ViewModels.CustomerModels;
-public class CustomerUpdateModel : CustomerCreateModel
+public class CustomerUpdateModel
 {
-    public Guid? Id { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public bool? Sex { get; set; } = default!;
+    public DateTime? DateOfBirth { get; set; } = default!;
+    public string PhoneNumber { get; set; } = default!;
 }

@@ -120,7 +120,7 @@ public class RouteLocationService : IRouteLocationService
 
     public async Task<IEnumerable<RouteLocationViewModel>> GetRouteLocByRouteId(Guid routeId)
     {
-        var results = await _unitOfWork.RouteLocationRepository.FindListByField(x => x.RouteId == routeId);
+        var results = await _unitOfWork.RouteLocationRepository.FindListByField(x => x.RouteId == routeId, x => x.Location);
         if(results.Count() > 0)
         {
             return _mapper.Map<IEnumerable<RouteLocationViewModel>>(results.OrderBy(x => x.Index));
