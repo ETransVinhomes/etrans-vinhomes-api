@@ -55,7 +55,7 @@ public class RouteService : IRouteService
 
 
     public async Task<RouteViewModel> GetByIdAsync(Guid id)
-     => _mapper.Map<RouteViewModel>(await _unitOfWork.RouteRepository.GetByIdAsync(id, x => x.Provider));
+     => _mapper.Map<RouteViewModel>(await _unitOfWork.RouteRepository.GetByIdAsync(id, x => x.Provider, x => x.RouteLocations));
 
 
 
