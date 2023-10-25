@@ -8,4 +8,5 @@ public class TicketViewModel
     public TripViewModel Trip { get; set; } = default!;
     public double Price { get; set; } = default!;
     public string Name { get; set; } = default!;
+    public Guid OrderId { get; set; } = default!;
 }

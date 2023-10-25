@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Cryptography.X509Certificates;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Enums;
 using Services.Services.Interfaces;
@@ -30,6 +31,7 @@ namespace Services.Services
             {
                 foreach (var ticket in order.Tickets)
                 {
+                    ticket.OrderId = order.Id;
                     var trip = await _unitOfwork.TripRepository.GetByIdAsync(ticket.TripId);
                     if (trip is not null)
                     {
@@ -38,6 +40,7 @@ namespace Services.Services
                             ticket.Price = trip.Price * ticket.Quantity;
                             await _unitOfwork.TicketRepository.AddAsync(ticket);
                             sum += ticket.Price;
+                        
                         } 
                     }
                     else
@@ -58,10 +61,10 @@ namespace Services.Services
         }
 
         public async Task<OrderViewModel> GetByIdAsync(Guid id)
-            => _mapper.Map<OrderViewModel>(await _unitOfwork.OrderRepository.GetByIdAsync(id));
+            => _mapper.Map<OrderViewModel>(await _unitOfwork.OrderRepository.GetByIdAsync(id, x => x.Payments, x => x.Tickets, x => x.Customer));
 
         public async Task<IEnumerable<OrderViewModel>> GetByUserIdAsync(Guid customerId)
-            => _mapper.Map<IEnumerable<OrderViewModel>>(await _unitOfwork.OrderRepository.FindListByField(x => x.CustomerId == customerId));
+            => _mapper.Map<IEnumerable<OrderViewModel>>(await _unitOfwork.OrderRepository.FindListByField(x => x.CustomerId == customerId, x => x.Tickets, x => x.Customer));
 
         public async Task<OrderViewModel> UpdateAsync(OrderUpdateModel model)
         {
