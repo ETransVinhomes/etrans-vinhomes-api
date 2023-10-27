@@ -15,7 +15,7 @@ namespace Repositories.Repositories
 
         public async Task<IEnumerable<RouteLocation>> GetByRouteId(Guid routeId)
         => await _dbContext.RouteLocation.Include(x => x.Location).ThenInclude(x => x.LocationType)
-                .Where(x => x.RouteId == routeId && x.IsDeleted == false).OrderByDescending(x => x.Index).ToListAsync();
+                .Where(x => x.RouteId == routeId && x.IsDeleted == false).OrderBy(x => x.Index).ToListAsync();
             
         
     }

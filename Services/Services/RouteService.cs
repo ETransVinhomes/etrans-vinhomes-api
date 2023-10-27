@@ -1,6 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Domain.Entities;
+using Microsoft.AspNetCore.Components;
 using Services.Services.Interfaces;
 using Services.ViewModels.RouteModels;
 
@@ -50,12 +51,25 @@ public class RouteService : IRouteService
     }
 
     public async Task<IEnumerable<RouteViewModel>> GetAllAsync()
-     => _mapper.Map<IEnumerable<RouteViewModel>>(await _unitOfWork.RouteRepository.GetAllAsync());
+    {
+        var result = await _unitOfWork.RouteRepository.GetAllAsync();
+        foreach (var item in result)
+        {
+            item.RouteLocations.OrderBy(x => x.Index);
+        }
+        return _mapper.Map<IEnumerable<RouteViewModel>>(result);
+    }
+    
 
 
 
     public async Task<RouteViewModel> GetByIdAsync(Guid id)
-     => _mapper.Map<RouteViewModel>(await _unitOfWork.RouteRepository.GetByIdAsync(id));
+    {
+        var result = await _unitOfWork.RouteRepository.GetByIdAsync(id);
+        result.RouteLocations.OrderBy(x => x.Index);
+        return _mapper.Map<RouteViewModel>(result);
+    }
+     
 
 
 
