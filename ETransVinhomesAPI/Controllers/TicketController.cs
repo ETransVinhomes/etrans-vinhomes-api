@@ -18,6 +18,19 @@ public class TicketController : BaseController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Get All Tickets By OrderId
+    /// </summary>
+    /// <param name="orderId"></param>
+    /// <returns></returns>
+    [Route("/api/orders/{orderId}/tickets")]
+    [HttpGet]
+    public async Task<IActionResult> GetByOrderId(Guid orderId)
+    {
+        var result = await _ticketService.GetByOrderIdAsync(orderId);
+        return Ok(result);
+    }
+
     [Route("/api/tickets/{id}")]
     [HttpGet]
     public async Task<IActionResult> GetById(Guid id)
@@ -26,5 +39,5 @@ public class TicketController : BaseController
         return Ok(result);
     }
 
-    
-} 
+
+}

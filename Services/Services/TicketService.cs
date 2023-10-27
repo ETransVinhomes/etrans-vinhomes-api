@@ -24,6 +24,15 @@ public class TicketService : ITicketService
         return _mapper.Map<TicketViewModel>(result);
     }
 
+    public async Task<IEnumerable<TicketViewModel>> GetByOrderIdAsync(Guid orderId)
+    {
+        var result = await _unitOfWork.TicketRepository.FindListByField(x => x.OrderId == orderId, x => x.Trip);
+        if(result.Count > 0)
+            return _mapper.Map<IEnumerable<TicketViewModel>>(result);
+        else throw new Exception($"Not found any tickets with OrderId: {orderId}");
+        
+    }
+
     public Task<IEnumerable<TicketViewModel>> GetTicketByUser(Guid id)
     {
         throw new NotImplementedException();

@@ -10,7 +10,7 @@ public class OrderController : BaseController
     {
         _orderService = orderService;
     }    
-    [Route("/api/users/{id}/[controller]")]
+    [Route("/api/users/{id}/[controller]s")]
     [HttpGet]
     public async Task<IActionResult> GetOrdersByUserId(Guid id)
     {
