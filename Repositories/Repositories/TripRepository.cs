@@ -24,9 +24,10 @@ namespace Repositories.Repositories
             var isBookedTicket = await _dbContext.Ticket.Where(x => x.TripId == tripId && x.Order.CustomerId == userId).FirstOrDefaultAsync();
             if(isBookedTicket is not null && trip.Vehicle.Driver is not null)
             {
-            
-                trip.Rating = (model.TripRating + trip.Rating) / 2;
-                trip.Vehicle.Driver.Rating = (model.DriverRating + trip.Vehicle.Driver.Rating) / 2;
+                if(trip.Rating == 0) trip.Rating = model.TripRating;
+                else trip.Rating = (model.TripRating + trip.Rating) / 2;
+                if(trip.Vehicle.Driver.Rating == 0) trip.Vehicle.Driver.Rating = model.DriverRating;
+                else trip.Vehicle.Driver.Rating = (model.DriverRating + trip.Vehicle.Driver.Rating) / 2;
                 _dbContext.Trip.Update(trip);
                 _dbContext.Driver.Update(trip.Vehicle.Driver);
                 return true;
