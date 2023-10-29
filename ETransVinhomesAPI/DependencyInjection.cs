@@ -4,6 +4,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Services.Services.Interfaces;
@@ -16,6 +17,10 @@ namespace ETransVinhomesAPI
 	{
 		public static IServiceCollection AddWebApiServices(this IServiceCollection services)
 		{
+			services.AddControllers().AddOData(opt =>
+		   {
+			   opt.Filter().Select().OrderBy().SetMaxTop(100).Expand();
+		   });
 			services.AddRouting(opt => opt.LowercaseUrls = true);
 			services.AddControllers();
 			services.AddTransient<GlobalExceptionMiddleware>();

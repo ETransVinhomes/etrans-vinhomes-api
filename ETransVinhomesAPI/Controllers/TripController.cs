@@ -1,7 +1,9 @@
 using System.Dynamic;
+using System.Net;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Services.Services.Interfaces;
 using Services.ViewModels.RatingModels;
 using Services.ViewModels.TripModels;
@@ -16,14 +18,27 @@ public class TripController : BaseController
         _tripService = tripService;
     }
 
-    [HttpGet]
+
+    /// <summary>
+    ///  Get All Trips
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet] [EnableQuery]
     public async Task<IActionResult> Get()
     {
         var result = await _tripService.GetAllAsync();
-        return Ok(result);
+        return Ok(result.AsQueryable());
     }
 
+    /// <summary>
+    /// Create Trip
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     [HttpPost]
+    [Authorize(Roles = nameof(RoleEnum.PROVIDER))]
+    [EnableQuery]
+    [ProducesResponseType(typeof(TripViewModel),(int)HttpStatusCode.Created)]
     public async Task<IActionResult> Create([FromBody] TripCreateModel model)
     {
         var result = await _tripService.CreateAsync(model);
@@ -31,8 +46,13 @@ public class TripController : BaseController
             return StatusCode(StatusCodes.Status201Created, result);
         else throw new Exception("Create Failed!");
     }
-
-
+    /// <summary>
+    /// Update Trip
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [Authorize(Roles = nameof(RoleEnum.PROVIDER))]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] TripUpdateModel model)
     {
@@ -40,14 +60,27 @@ public class TripController : BaseController
         return NoContent();
     }
 
+    /// <summary>
+    /// Delete Trip
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [Authorize(Roles = nameof(RoleEnum.PROVIDER))]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         await _tripService.DeleteAsync(id);
         return NoContent();
     }
-
+    /// <summary>
+    /// Get Trip By Id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     [HttpGet("{id}")]
+    [EnableQuery]
     public async Task<IActionResult> GetById(Guid id)
     {
         var trip = await _tripService.GetByIdAsync(id);

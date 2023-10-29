@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Services.Services.Interfaces;
 using Services.ViewModels.LocationType;
 using Services.ViewModels.ResponseModels;
@@ -23,6 +26,7 @@ namespace ETransVinhomesAPI.Controllers
 		/// <exception cref="InvalidDataException"></exception>
 		/// <response code="200"></response>
 		[HttpGet]
+		[EnableQuery]
 		public async Task<IActionResult> GetAll()
 		{
 			var locationTypeList = await _locationTypeService.GetAllLocationTypeAsync();
@@ -50,14 +54,13 @@ namespace ETransVinhomesAPI.Controllers
 			return locationType != null ? Ok(locationType) : throw new Exception("Not found!");
 		}
 		/// <summary>
-		/// 
+		/// Create New Location Type
 		/// </summary>
 		/// <param name="model"></param>
 		/// <returns></returns>
 		/// <exception cref="Exception"></exception>
-		/// <response code="201">If create successfully</response>
-		/// <response code="400"></response>
 		[HttpPost]
+		[ProducesResponseType((int)HttpStatusCode.Created)]
 		public async Task<IActionResult> Create([FromBody] LocationTypeCreateModel model)
 		{
 			var result = await _locationTypeService.CreateLocationTypeAsync(model);
@@ -69,6 +72,14 @@ namespace ETransVinhomesAPI.Controllers
 			else throw new Exception("Create failed!");
 		}
 
+		/// <summary>
+		/// Delete Location Type
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="Exception"></exception>
+		[ProducesResponseType((int) HttpStatusCode.NoContent)]
+		[Authorize]
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> Delete(Guid id)
 		{

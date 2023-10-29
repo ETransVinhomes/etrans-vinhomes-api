@@ -1,3 +1,4 @@
+using System.Net;
 using Auth.Services.Services.Interfaces;
 using Auth.Services.ViewModels.AuthRequestDTO;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ public class UsersController : ControllerBase
     /// <param name="model"></param>
     /// <returns></returns>
     [HttpPost]
+    [ProducesResponseType((int)HttpStatusCode.Created)]
     public async Task<IActionResult> Register([FromBody] RegisterDTO model)
     {
         var result = await _authService.RegisterAsync(model);
@@ -45,14 +47,17 @@ public class UsersController : ControllerBase
             return BadRequest("Failed");
         }
     }
-
+    /// <summary>
+    /// Get All Users
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> Get()
     {
         var result = await _authService.GetAllAsync();
         return Ok(result);
     }
-
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {

@@ -13,7 +13,5 @@ public class UserCreateValidation : AbstractValidator<RegisterDTO>
        .MinimumLength(10).WithMessage("PhoneNumber must not be less than 10 characters.")
        .MaximumLength(20).WithMessage("PhoneNumber must not exceed 50 characters.")
        .WithMessage("PhoneNumber not valid");
-
-       
     }
 }

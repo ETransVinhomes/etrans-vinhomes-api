@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Services.Services.Interfaces;
 using Services.ViewModels.LocationModels;
 using Services.ViewModels.ResponseModels;
@@ -17,8 +19,8 @@ public class LocationController : BaseController
 	/// <summary>
 	/// Get all locations
 	/// </summary>
-	/// <response code ="200"></response>
 	[HttpGet]
+	[EnableQuery]
 	public async Task<IActionResult> GetAll()
 	{
 		var result = await _locationService.GetAllAsync();
@@ -30,7 +32,7 @@ public class LocationController : BaseController
 	/// </summary>
 	/// <param name="id">Guid</param>
 	/// <returns></returns>
-	/// /// <response code ="200"></response>
+	[EnableQuery]
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetById(Guid id)
 	{
@@ -47,6 +49,7 @@ public class LocationController : BaseController
 	/// <returns>No Content - 204</returns>
 	/// <response code="204"></response>
 	[HttpDelete("{id}")]
+	[ProducesResponseType((int)HttpStatusCode.NoContent)]
 	public async Task<IActionResult> Delete(Guid id)
 	{
 		await _locationService.DeleteAsync(id);
@@ -58,14 +61,20 @@ public class LocationController : BaseController
 	/// </summary>
 	/// <param name="model">LocationUpdateModel</param>
 	/// <returns>No Content - 204</returns>
+	[ProducesResponseType((int)HttpStatusCode.NoContent)]
 	[HttpPut]
 	public async Task<IActionResult> Update([FromBody] LocationUpdateModel model)
 	{
 		await _locationService.UpdateAsync(model);
 		return NoContent();
 	}
-	
+	/// <summary>
+	/// Create New Location
+	/// </summary>
+	/// <param name="models"></param>
+	/// <returns></returns>
 	[HttpPost]
+	[ProducesResponseType((int)HttpStatusCode.Created)]
 	public async Task<IActionResult> Create([FromBody]List<LocationCreateModel> models)
 	{
 		return await _locationService.CreateRangeAsync(models) ? StatusCode(StatusCodes.Status201Created) : BadRequest("Create Failed!");

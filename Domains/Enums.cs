@@ -42,6 +42,7 @@
     {
         CUSTOMER,
         PROVIDER,
-        DRIVER
+        DRIVER,
+        ADMIN
     }
 }

@@ -12,6 +12,7 @@ namespace ETransVinhomes.AuthAPI
 	{
 		public static WebApplicationBuilder AddApiServices(this WebApplicationBuilder builder)
 		{
+			
 			builder.Services.AddSingleton<GlobalExceptionMiddleware>();
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();

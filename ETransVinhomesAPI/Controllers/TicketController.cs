@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Services.Services.Interfaces;
 
 namespace ETransVinhomesAPI.Controllers;
@@ -9,13 +10,17 @@ public class TicketController : BaseController
     {
         _ticketService = ticketService;
     }
-
+    /// <summary>
+    /// Get All Ticket By UserId
+    /// </summary>
+    /// <param name="id">Guid</param>
+    /// <returns></returns>
     [Route("/api/users/{id}/tickets")]
-    [HttpGet]
+    [HttpGet] [EnableQuery]
     public async Task<IActionResult> GetByUserId(Guid id)
     {
         var result = await _ticketService.GetTicketByUser(id);
-        return Ok(result);
+        return Ok(result.AsQueryable());
     }
 
     /// <summary>
@@ -24,13 +29,18 @@ public class TicketController : BaseController
     /// <param name="orderId"></param>
     /// <returns></returns>
     [Route("/api/orders/{orderId}/tickets")]
-    [HttpGet]
+    [HttpGet] [EnableQuery]
     public async Task<IActionResult> GetByOrderId(Guid orderId)
     {
         var result = await _ticketService.GetByOrderIdAsync(orderId);
-        return Ok(result);
+        return Ok(result.AsQueryable());
     }
 
+    /// <summary>
+    ///  Get Ticket By Id
+    /// </summary>
+    /// <param name="id">Guid</param>
+    /// <returns></returns>
     [Route("/api/tickets/{id}")]
     [HttpGet]
     public async Task<IActionResult> GetById(Guid id)
