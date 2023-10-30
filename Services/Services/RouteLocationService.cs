@@ -31,7 +31,7 @@ public class RouteLocationService : IRouteLocationService
     {
         int index = 0;
         var route = await _unitOfWork.RouteRepository.GetByIdAsync(routeId) ?? throw new Exception($"Not found Route with Id: {routeId}");
-        var r_l_arr = _mapper.Map<List<RouteLocation>>(models).ToArray();
+        var r_l_arr = _mapper.Map<List<RouteLocation>>(models);
         r_l_arr.Select(c => { c.RouteId = routeId; return c; }).ToList();
         var existedRouteLoc = (await _unitOfWork.RouteLocationRepository.FindListByField(x => x.RouteId == routeId)).OrderBy(x => x.Index).ToList() ?? new List<RouteLocation>();
         if (existedRouteLoc.Count() > 0)
@@ -44,15 +44,15 @@ public class RouteLocationService : IRouteLocationService
             r_l_arr.First().IsHead = true;
         }
 
-
+        
         for (int i = index; i < (index + r_l_arr.Count()); i++)
         {
             
             if(string.IsNullOrEmpty(r_l_arr[i].Name)) r_l_arr[i].Name = $"{route.Name} {i}";
             if (i != index + r_l_arr.Count() - 1)
-                r_l_arr[i].NextRouteLocationId = r_l_arr[i + 1].Id;
-            r_l_arr[i].RouteId = routeId;
-            r_l_arr[i].Index = i;
+                r_l_arr[i - index].NextRouteLocationId = r_l_arr[i - index + 1].Id;
+            r_l_arr[i - index].RouteId = routeId;
+            r_l_arr[i - index].Index = i;
         }
         
         route!.Size = index + r_l_arr.Count();
