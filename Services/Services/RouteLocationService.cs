@@ -48,7 +48,7 @@ public class RouteLocationService : IRouteLocationService
         for (int i = index; i < (index + r_l_arr.Count()); i++)
         {
             
-            if(string.IsNullOrEmpty(r_l_arr[i].Name)) r_l_arr[i].Name = $"{route.Name} {i}";
+            if(string.IsNullOrEmpty(r_l_arr[i - index].Name)) r_l_arr[i].Name = $"{route.Name} {i}";
             if (i != index + r_l_arr.Count() - 1)
                 r_l_arr[i - index].NextRouteLocationId = r_l_arr[i - index + 1].Id;
             r_l_arr[i - index].RouteId = routeId;
