@@ -18,6 +18,7 @@ namespace Repositories.Repositories
             return await _dbContext.Route.Include(x => x.RouteLocations)
             .ThenInclude(x => x.Location)
             .ThenInclude(x => x.LocationType)
+            .Where(x => x.IsDeleted == false)
             .OrderBy(x => x.RouteLocations.Min(x => x.Index))
             .ToListAsync();
         }
@@ -26,6 +27,7 @@ namespace Repositories.Repositories
         => await _dbContext.Route.Include(x => x.RouteLocations)
                                 .ThenInclude(x => x.Location)
                                 .ThenInclude(x => x.LocationType)
+                                .Where(x => x.IsDeleted == false)
                                 .OrderBy(x => x.RouteLocations.Min(x => x.Index))
                                 .Where(x => x.Id == id).FirstAsync();
                                 
