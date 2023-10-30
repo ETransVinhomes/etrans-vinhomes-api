@@ -52,11 +52,10 @@ public class RouteLocationService : IRouteLocationService
             if (i != index + r_l_arr.Count() - 1)
                 r_l_arr[i].NextRouteLocationId = r_l_arr[i + 1].Id;
             r_l_arr[i].RouteId = routeId;
-            
             r_l_arr[i].Index = i;
         }
         
-        route!.Size = r_l_arr.Count() + 1;
+        route!.Size = index + r_l_arr.Count();
         _unitOfWork.RouteRepository.Update(route);
         await _unitOfWork.RouteLocationRepository.AddRangeAsync(r_l_arr.ToList());
         return await _unitOfWork.SaveChangesAsync() ?
