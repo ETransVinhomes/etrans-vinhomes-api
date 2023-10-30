@@ -83,7 +83,7 @@ namespace ETransVinhomesAPI.Controllers
 		///		
 		/// </remarks>
 		/// <param name="model"></param>
-		[Authorize(nameof(RoleEnum.ADMIN))]
+		[Authorize(Roles = nameof(RoleEnum.ADMIN))]
 		[ProducesResponseType((int)HttpStatusCode.Created)]
 		[HttpPost]
 		public async Task<IActionResult> Create([FromBody] ProviderCreateModel model)

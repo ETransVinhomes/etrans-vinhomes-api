@@ -24,7 +24,7 @@ public class DriverController : BaseController
     /// Get All Drivers
     /// </summary>
     [EnableQuery]
-    [Authorize($"{nameof(RoleEnum.ADMIN)}, {nameof(RoleEnum.PROVIDER)}")]
+    [Authorize(Roles = $"{nameof(RoleEnum.ADMIN)}, {nameof(RoleEnum.PROVIDER)}")]
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -57,7 +57,7 @@ public class DriverController : BaseController
     /// <returns></returns>
     [HttpGet("{id}")]
     [EnableQuery]
-    [Authorize($"{nameof(RoleEnum.ADMIN)}, {nameof(RoleEnum.PROVIDER)}")]
+    [Authorize(Roles = $"{nameof(RoleEnum.ADMIN)}, {nameof(RoleEnum.PROVIDER)}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         return Ok(await _driverService.GetDriverByIdAsync(id));
@@ -70,7 +70,7 @@ public class DriverController : BaseController
     /// <returns></returns>
     [ProducesResponseType((int)HttpStatusCode.Created)]
     [HttpPost]
-    [Authorize($"{nameof(RoleEnum.ADMIN)}")]
+    [Authorize(Roles = $"{nameof(RoleEnum.ADMIN)}")]
     public async Task<IActionResult> Create([FromBody] DriverCreateModel model)
     {
         var result = await _driverService.CreateDriver(model);
@@ -90,7 +90,7 @@ public class DriverController : BaseController
     /// <exception cref="Exception"></exception>
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [HttpPut("{id}")]
-    [Authorize($"{nameof(RoleEnum.ADMIN)}")]
+    [Authorize(Roles = $"{nameof(RoleEnum.ADMIN)}")]
     public async Task<IActionResult> Update([FromBody] DriverUpdateModel model, [FromRoute] Guid id)
     {
         model.Id = id;
@@ -108,7 +108,7 @@ public class DriverController : BaseController
     /// <returns></returns>
     /// <exception cref="Exception"></exception>
     [HttpDelete("{id}")]
-    [Authorize($"{nameof(RoleEnum.ADMIN)}")]
+    [Authorize(Roles = $"{nameof(RoleEnum.ADMIN)}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     public async Task<IActionResult> Delete(Guid id)
     {
