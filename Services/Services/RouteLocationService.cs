@@ -45,11 +45,11 @@ public class RouteLocationService : IRouteLocationService
         }
 
 
-        for (int i = index; i < r_l_arr.Count(); i++)
+        for (int i = index; i < (index + r_l_arr.Count()); i++)
         {
             
             if(string.IsNullOrEmpty(r_l_arr[i].Name)) r_l_arr[i].Name = $"{route.Name} {i}";
-            if (i != r_l_arr.Count() - 1)
+            if (i != index + r_l_arr.Count() - 1)
                 r_l_arr[i].NextRouteLocationId = r_l_arr[i + 1].Id;
             r_l_arr[i].RouteId = routeId;
             
