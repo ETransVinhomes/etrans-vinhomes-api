@@ -19,7 +19,7 @@ namespace Repositories.Repositories
             .ThenInclude(x => x.Location)
             .ThenInclude(x => x.LocationType)
             .OrderBy(x => x.RouteLocations.Min(x => x.Index))
-                    .ToListAsync();
+            .ToListAsync();
         }
 
         public async Task<Route> GetByIdAsync(Guid id)

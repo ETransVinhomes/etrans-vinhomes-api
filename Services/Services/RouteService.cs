@@ -57,7 +57,10 @@ public class RouteService : IRouteService
         {
             item.RouteLocations.OrderBy(x => x.Index);
         }
-        return _mapper.Map<IEnumerable<RouteViewModel>>(result);
+        var mapperResult = _mapper.Map<IEnumerable<RouteViewModel>>(result);
+        mapperResult.ToList().ForEach(x => x.RouteLocations.OrderBy(x => x.Index));
+
+        return mapperResult;
     }
     
 
@@ -67,7 +70,9 @@ public class RouteService : IRouteService
     {
         var result = await _unitOfWork.RouteRepository.GetByIdAsync(id);
         result.RouteLocations.OrderBy(x => x.Index);
-        return _mapper.Map<RouteViewModel>(result);
+        var mapperResult = _mapper.Map<RouteViewModel>(result);
+        mapperResult.RouteLocations.OrderBy(x => x.Index);
+        return mapperResult;
     }
      
 
