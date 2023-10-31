@@ -90,7 +90,7 @@ public class DriverController : BaseController
     /// <exception cref="Exception"></exception>
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [HttpPut("{id}")]
-    [Authorize(Roles = $"{nameof(RoleEnum.ADMIN)}")]
+    [Authorize(Roles = $"{nameof(RoleEnum.DRIVER)}, {nameof(RoleEnum.ADMIN)}")]
     public async Task<IActionResult> Update([FromBody] DriverUpdateModel model, [FromRoute] Guid id)
     {
         model.Id = id;
