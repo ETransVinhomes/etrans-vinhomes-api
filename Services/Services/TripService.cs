@@ -28,7 +28,7 @@ public class TripService : ITripService
     {
         (await _unitOfWork.TripRepository.GetAllAsync()).ForEach(x => 
         {
-            if(x.SeatRemain == 0)
+            if(x.SeatRemain == 0 && x.Status == nameof(StatusEnum.Active))
             {
                 x.Status = nameof(TripStatusEnum.Full);
                 _unitOfWork.TripRepository.Update(x);
