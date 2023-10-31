@@ -33,7 +33,7 @@ public class TripService : ITripService
                 x.Status = nameof(TripStatusEnum.Full);
                 _unitOfWork.TripRepository.Update(x);
             }
-            if(DateTime.Now >= x.StartedDate)
+            if(DateTime.Now >= x.StartedDate && (x.Status == nameof(TripStatusEnum.Active) || x.Status == nameof(TripStatusEnum.Full)))
             {
                 x.Status = nameof(TransportationStatusEnum.OnGoing);
                 _unitOfWork.TripRepository.Update(x);
