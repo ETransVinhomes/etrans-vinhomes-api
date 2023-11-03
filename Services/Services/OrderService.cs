@@ -37,9 +37,9 @@ namespace Services.Services
                     {
                         if (trip.Status == nameof(TransportationStatusEnum.Active))
                         {
-                            ticket.Price = trip.Price * ticket.Quantity;
+                            ticket.Price = trip.Price;
                             await _unitOfwork.TicketRepository.AddAsync(ticket);
-                            sum += ticket.Price;
+                            sum += ticket.Price * ticket.Quantity;
 
                         }
                     }
