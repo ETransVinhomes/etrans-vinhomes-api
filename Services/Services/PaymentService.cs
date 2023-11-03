@@ -32,7 +32,7 @@ namespace Services.Services
 				foreach(var ticket in order.Tickets)
 			{
 				var trip = await _unitOfWork.TripRepository.GetByIdAsync(ticket.TripId) ?? throw new Exception($"Trip is not active");
-				if(trip.SeatRemain <= ticket.Quantity) 
+				if(trip.SeatRemain < ticket.Quantity) 
 				{
 					throw new Exception($"--> Error: Trip Id: {trip.Id} | TicketId: {ticket.Id} | SeatRemain : {trip.SeatRemain} | Ticket Quantity: {ticket.Quantity}");
 				} else 
