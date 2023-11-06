@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Domain.Entities;
@@ -26,12 +27,16 @@ public class TripService : ITripService
 
     public async Task CheckTripStarted()
     {
-        (await _unitOfWork.TripRepository.GetAllAsync()).ForEach(x => 
+        (await _unitOfWork.TripRepository.GetAllAsync()).ForEach(async x => 
         {
             if(x.SeatRemain == 0 && x.Status == nameof(StatusEnum.Active))
             {
                 x.Status = nameof(TripStatusEnum.Full);
                 _unitOfWork.TripRepository.Update(x);
+            }
+            if(x.Status == nameof(TripStatusEnum.OnGoing) && (DateTime.Now.Subtract(x.StartedDate).Days >= 1))
+            {
+                await FinishTrip(x.Id);
             }
             if(DateTime.Now >= x.StartedDate && (x.Status == nameof(TripStatusEnum.Active) || x.Status == nameof(TripStatusEnum.Full)))
             {
