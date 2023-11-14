@@ -38,7 +38,7 @@ public class TripService : ITripService
             {
                 await FinishTrip(x.Id);
             }
-            if(DateTime.Now >= x.StartedDate && (x.Status == nameof(TripStatusEnum.Active) || x.Status == nameof(TripStatusEnum.Full)))
+            if(DateTime.Now.AddHours(7) >= x.StartedDate && (x.Status == nameof(TripStatusEnum.Active) || x.Status == nameof(TripStatusEnum.Full)))
             {
                 x.Status = nameof(TransportationStatusEnum.OnGoing);
                 _unitOfWork.TripRepository.Update(x);
